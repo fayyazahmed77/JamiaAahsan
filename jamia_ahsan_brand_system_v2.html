@@ -1,0 +1,2353 @@
+
+
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jamia Arabia Ahsan Ul Uloom — Complete Brand System v3</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Nunito:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+/* ═══════════════════════════════════════════════════════════
+   JAMIA ARABIA AHSAN UL ULOOM — BRAND SYSTEM v3
+   Primary: Sapphire Blue  |  Accent: Sacred Gold  |  Maroon: Removed
+   Islamic Heritage × Modern Scholarship × Digital Excellence
+   ═══════════════════════════════════════════════════════════ */
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* ══════════════════════════
+   CSS DESIGN TOKENS
+   ══════════════════════════ */
+:root {
+  /* ── PRIMARY: Deep Sapphire (Scale Color) ── */
+  --sapphire-50:  #EEF4FB;
+  --sapphire-100: #D4E5F5;
+  --sapphire-200: #A8CAEC;
+  --sapphire-300: #6BA5D9;
+  --sapphire-400: #3B82C4;
+  --sapphire-500: #1E5FA8;  /* Mid brand */
+  --sapphire-600: #174A87;  /* Main brand */
+  --sapphire-700: #113969;  /* Dark brand */
+  --sapphire-800: #0C2A50;
+  --sapphire-900: #071B35;
+  --sapphire-950: #03101F;
+
+  /* ── SECONDARY: Sacred Gold ── */
+  --gold-50:  #FDF8EC;
+  --gold-100: #FAF0CC;
+  --gold-200: #F5DC8A;
+  --gold-300: #EEC24A;
+  --gold-400: #D9A520;
+  --gold-500: #C08B10;  /* Main gold */
+  --gold-600: #A07308;
+  --gold-700: #7D5A05;
+  --gold-800: #5A4003;
+  --gold-900: #3A2901;
+  --gold-950: #1E1500;
+
+  /* ── NEUTRAL: Warm Parchment ── */
+  --neutral-50:  #FAFAF8;
+  --neutral-100: #F4F3EF;
+  --neutral-200: #E8E6E0;
+  --neutral-300: #D4D1C8;
+  --neutral-400: #B8B4A9;
+  --neutral-500: #8F8B80;
+  --neutral-600: #6A6760;
+  --neutral-700: #4D4A45;
+  --neutral-800: #333130;
+  --neutral-900: #1E1D1B;
+  --neutral-950: #0F0F0E;
+
+  /* ── SEMANTIC ── */
+  --success-bg:   #EDF7F0; --success-border: #6EBB88; --success-text: #1A5C32;
+  --warning-bg:   #FEF8EA; --warning-border: #E5BA42; --warning-text: #7A5200;
+  --error-bg:     #FEF0F0; --error-border:   #E07070; --error-text:   #8B1A1A;
+  --info-bg:      #EEF4FB; --info-border:    #6BA5D9; --info-text:    #113969;
+
+  /* ── BACKGROUNDS ── */
+  --bg-page:          #F4F2ED;
+  --bg-card:          #FFFFFF;
+  --bg-card-elevated: #FEFEFE;
+  --bg-sidebar:       #0C2A50;
+  --bg-sidebar-hover: #113969;
+  --bg-header:        #174A87;
+  --bg-dropdown:      #FFFFFF;
+  --bg-overlay:       rgba(7,27,53,0.72);
+
+  /* ── SURFACES ── */
+  --surface-inset:  #EEF1F5;
+  --surface-subtle: #F7F6F3;
+
+  /* ── TEXT ── */
+  --text-primary:   #1A1916;
+  --text-secondary: #3D3B37;
+  --text-muted:     #6A6760;
+  --text-disabled:  #B8B4A9;
+  --text-on-dark:   #EEF4FB;
+  --text-on-dark-2: #A8CAEC;
+  --text-gold:      #C08B10;
+  --text-sapphire:  #174A87;
+
+  /* ── BORDERS ── */
+  --border-default:  #D4D1C8;
+  --border-strong:   #B8B4A9;
+  --border-hover:    #6BA5D9;
+  --border-focus:    #1E5FA8;
+  --border-card:     rgba(26,25,22,0.08);
+
+  /* ── SPACING ── */
+  --space-1: 4px;   --space-2: 8px;   --space-3: 12px;  --space-4: 16px;
+  --space-5: 20px;  --space-6: 24px;  --space-7: 28px;  --space-8: 32px;
+  --space-10: 40px; --space-12: 48px; --space-16: 64px;
+
+  /* ── RADIUS ── */
+  --radius-sm: 4px;  --radius-md: 8px;
+  --radius-lg: 12px; --radius-xl: 16px; --radius-2xl: 24px;
+
+  /* ── SHADOWS ── */
+  --shadow-sm:   0 1px 3px rgba(7,27,53,0.08), 0 1px 2px rgba(7,27,53,0.04);
+  --shadow-md:   0 4px 12px rgba(7,27,53,0.10), 0 2px 4px rgba(7,27,53,0.05);
+  --shadow-lg:   0 8px 24px rgba(7,27,53,0.12), 0 4px 8px rgba(7,27,53,0.06);
+  --shadow-xl:   0 16px 48px rgba(7,27,53,0.16), 0 8px 16px rgba(7,27,53,0.08);
+  --shadow-gold: 0 4px 16px rgba(192,139,16,0.20);
+
+  /* ── TRANSITIONS ── */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --duration: 200ms;
+
+  /* ── FONTS ── */
+  --font-heading: 'Playfair Display', Georgia, serif;
+  --font-body:    'Nunito', system-ui, sans-serif;
+  --font-mono:    'JetBrains Mono', monospace;
+}
+
+/* ══════════════════════════
+   BASE STYLES
+   ══════════════════════════ */
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font-body);
+  background: var(--bg-page);
+  color: var(--text-primary);
+  font-size: 15px;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ══════════════════════════
+   LAYOUT
+   ══════════════════════════ */
+.shell {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 0 var(--space-6) 80px;
+}
+
+/* ══════════════════════════
+   COVER / HERO
+   ══════════════════════════ */
+.hero {
+  background: var(--bg-sidebar);
+  position: relative;
+  overflow: hidden;
+  padding: 64px var(--space-6) 72px;
+  margin-bottom: 56px;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 60% 80% at 80% 50%, rgba(30,95,168,0.25) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 60% at 15% 80%, rgba(192,139,16,0.12) 0%, transparent 60%);
+}
+/* Geometric Islamic pattern overlay */
+.hero-pattern {
+  position: absolute;
+  inset: 0;
+  opacity: 0.05;
+  background-image:
+    repeating-linear-gradient(45deg, var(--gold-400) 0, var(--gold-400) 1px, transparent 0, transparent 50%),
+    repeating-linear-gradient(-45deg, var(--gold-400) 0, var(--gold-400) 1px, transparent 0, transparent 50%);
+  background-size: 28px 28px;
+}
+.hero-content { position: relative; z-index: 1; max-width: 860px; }
+.hero-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(192,139,16,0.15);
+  border: 1px solid rgba(192,139,16,0.3);
+  border-radius: 40px;
+  padding: 4px 16px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--gold-300);
+  margin-bottom: 20px;
+}
+.hero h1 {
+  font-family: var(--font-heading);
+  font-size: clamp(28px, 4vw, 46px);
+  font-weight: 700;
+  color: #FFFFFF;
+  line-height: 1.15;
+  margin-bottom: 12px;
+  letter-spacing: -0.02em;
+}
+.hero h1 em {
+  font-style: italic;
+  color: var(--gold-300);
+}
+.hero-sub {
+  font-size: 14px;
+  color: var(--text-on-dark-2);
+  max-width: 520px;
+  margin-bottom: 32px;
+  line-height: 1.7;
+}
+.hero-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  align-items: center;
+}
+.hero-tag {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--text-on-dark-2);
+}
+.hero-tag span {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--gold-400);
+  flex-shrink: 0;
+}
+
+/* ══════════════════════════
+   SECTION HEADERS
+   ══════════════════════════ */
+.section-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: 28px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border-default);
+}
+.section-num {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--sapphire-500);
+  margin-bottom: 4px;
+}
+.section-title {
+  font-family: var(--font-heading);
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--text-primary);
+  letter-spacing: -0.01em;
+}
+.section-note {
+  font-size: 12px;
+  color: var(--text-muted);
+  text-align: right;
+  line-height: 1.5;
+  max-width: 280px;
+}
+
+.section-block {
+  margin-bottom: 64px;
+}
+
+/* ══════════════════════════
+   COLOR PALETTE DISPLAY
+   ══════════════════════════ */
+.palette-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 24px;
+  margin-bottom: 40px;
+}
+.palette-col h4 {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 10px;
+}
+.palette-swatch-row {
+  display: flex;
+  gap: 3px;
+  margin-bottom: 6px;
+}
+.swatch {
+  flex: 1;
+  height: 32px;
+  border-radius: var(--radius-sm);
+  position: relative;
+  cursor: default;
+}
+.swatch-lg {
+  height: 56px;
+  border-radius: var(--radius-md);
+}
+.swatch-meta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 10px;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  padding: 0 2px;
+}
+
+/* Large named swatches */
+.color-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+.color-card-swatch {
+  height: 96px;
+}
+.color-card-body {
+  padding: 14px 16px;
+}
+.color-card-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 2px;
+}
+.color-card-hex {
+  font-size: 11px;
+  font-family: var(--font-mono);
+  color: var(--text-muted);
+}
+.color-card-use {
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-top: 6px;
+  line-height: 1.4;
+}
+
+/* ══════════════════════════
+   SCALE ROWS
+   ══════════════════════════ */
+.scale-row {
+  margin-bottom: 20px;
+}
+.scale-row-label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 6px;
+}
+.scale-swatches {
+  display: flex;
+  gap: 2px;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+.scale-swatches .sw {
+  flex: 1;
+  height: 44px;
+  display: flex;
+  align-items: flex-end;
+  padding: 4px 5px;
+  font-size: 9px;
+  font-family: var(--font-mono);
+  transition: transform var(--duration) var(--ease-out);
+}
+.scale-swatches .sw:hover { transform: scaleY(1.15); transform-origin: bottom; }
+
+/* ══════════════════════════
+   SEMANTIC COLORS
+   ══════════════════════════ */
+.semantic-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-bottom: 32px;
+}
+.sem-card {
+  border-radius: var(--radius-lg);
+  padding: 18px;
+  border: 1px solid;
+}
+.sem-card .sem-icon {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+.sem-card .sem-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+.sem-card .sem-desc {
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+/* ══════════════════════════
+   TYPOGRAPHY SHOWCASE
+   ══════════════════════════ */
+.type-block {
+  background: var(--bg-card);
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+  margin-bottom: 16px;
+  box-shadow: var(--shadow-sm);
+}
+.type-meta {
+  font-size: 10px;
+  font-family: var(--font-mono);
+  color: var(--text-muted);
+  margin-bottom: 8px;
+  display: flex;
+  gap: 16px;
+}
+.type-sample-h1 {
+  font-family: var(--font-heading);
+  font-size: 48px;
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+.type-sample-h2 {
+  font-family: var(--font-heading);
+  font-size: 36px;
+  font-weight: 600;
+  color: var(--text-primary);
+  line-height: 1.2;
+  letter-spacing: -0.015em;
+}
+.type-sample-h3 {
+  font-family: var(--font-heading);
+  font-size: 28px;
+  font-weight: 600;
+  color: var(--text-primary);
+  line-height: 1.25;
+}
+.type-sample-h4 {
+  font-family: var(--font-heading);
+  font-size: 22px;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+.type-sample-body {
+  font-family: var(--font-body);
+  font-size: 16px;
+  color: var(--text-secondary);
+  line-height: 1.75;
+}
+.type-sample-sm {
+  font-family: var(--font-body);
+  font-size: 13px;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+.type-sample-arabic {
+  font-family: 'Scheherazade New', 'Amiri', serif;
+  font-size: 28px;
+  text-align: right;
+  direction: rtl;
+  color: var(--sapphire-700);
+  line-height: 1.8;
+}
+.type-sample-urdu {
+  font-family: 'Noto Nastaliq Urdu', 'Jameel Noori Nastaleeq', serif;
+  font-size: 24px;
+  text-align: right;
+  direction: rtl;
+  color: var(--text-primary);
+  line-height: 2;
+}
+.type-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--sapphire-600);
+  margin-bottom: 12px;
+}
+
+/* ══════════════════════════
+   COMPONENT DEMOS
+   ══════════════════════════ */
+
+/* Buttons */
+.btn-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  padding: 24px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-lg);
+  margin-bottom: 16px;
+  box-shadow: var(--shadow-sm);
+}
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 9px 20px;
+  border-radius: var(--radius-md);
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  transition: all var(--duration) var(--ease-out);
+  letter-spacing: 0.01em;
+  text-decoration: none;
+}
+.btn-primary {
+  background: var(--sapphire-600);
+  color: #fff;
+  box-shadow: 0 1px 3px rgba(23,74,135,0.3);
+}
+.btn-primary:hover { background: var(--sapphire-700); box-shadow: 0 4px 12px rgba(23,74,135,0.35); transform: translateY(-1px); }
+
+.btn-gold {
+  background: var(--gold-500);
+  color: #fff;
+  box-shadow: var(--shadow-gold);
+}
+.btn-gold:hover { background: var(--gold-600); transform: translateY(-1px); }
+
+.btn-outline {
+  background: transparent;
+  color: var(--sapphire-600);
+  border: 1.5px solid var(--sapphire-600);
+}
+.btn-outline:hover { background: var(--sapphire-50); }
+
+.btn-ghost {
+  background: transparent;
+  color: var(--text-secondary);
+  border: 1.5px solid var(--border-default);
+}
+.btn-ghost:hover { background: var(--neutral-100); border-color: var(--border-strong); }
+
+.btn-sm { padding: 6px 14px; font-size: 12px; }
+.btn-lg { padding: 13px 28px; font-size: 15px; border-radius: var(--radius-lg); }
+.btn-icon { padding: 9px; }
+
+/* Badges */
+.badge-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 20px 24px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-lg);
+  margin-bottom: 16px;
+  box-shadow: var(--shadow-sm);
+}
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 10px;
+  border-radius: 40px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+}
+.badge-sapphire { background: var(--sapphire-100); color: var(--sapphire-700); }
+.badge-gold     { background: var(--gold-100);     color: var(--gold-700); }
+.badge-success  { background: var(--success-bg);   color: var(--success-text); }
+.badge-warning  { background: var(--warning-bg);   color: var(--warning-text); }
+.badge-error    { background: var(--error-bg);     color: var(--error-text); }
+.badge-neutral  { background: var(--neutral-200);  color: var(--neutral-700); }
+
+/* Cards */
+.cards-demo {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-bottom: 16px;
+}
+.demo-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  box-shadow: var(--shadow-sm);
+  transition: all var(--duration) var(--ease-out);
+  cursor: default;
+}
+.demo-card:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); }
+.demo-card.card-featured {
+  border: 1.5px solid var(--sapphire-300);
+  background: linear-gradient(160deg, var(--sapphire-50) 0%, #fff 60%);
+}
+.demo-card.card-gold {
+  border: 1.5px solid var(--gold-300);
+  background: linear-gradient(160deg, var(--gold-50) 0%, #fff 60%);
+}
+.card-icon-wrap {
+  width: 40px; height: 40px;
+  border-radius: var(--radius-md);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px;
+  margin-bottom: 14px;
+}
+.card-icon-wrap.sapphire { background: var(--sapphire-100); color: var(--sapphire-600); }
+.card-icon-wrap.gold     { background: var(--gold-100);     color: var(--gold-600); }
+.card-icon-wrap.neutral  { background: var(--neutral-100);  color: var(--neutral-600); }
+.card-title {
+  font-family: var(--font-heading);
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 6px;
+}
+.card-desc { font-size: 13px; color: var(--text-muted); line-height: 1.55; }
+.card-stat {
+  font-family: var(--font-heading);
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--sapphire-700);
+  margin-bottom: 2px;
+}
+.card-stat-label { font-size: 12px; color: var(--text-muted); }
+
+/* ══════════════════════════
+   SIDEBAR DEMO
+   ══════════════════════════ */
+.ui-demo-wrapper {
+  background: var(--bg-card);
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  box-shadow: var(--shadow-lg);
+  margin-bottom: 40px;
+}
+.ui-demo-header {
+  background: var(--bg-header);
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+.ui-demo-header-logo {
+  width: 32px; height: 32px;
+  border-radius: var(--radius-md);
+  background: rgba(255,255,255,0.12);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.ui-demo-header-logo svg { width: 18px; height: 18px; }
+.ui-demo-header-title {
+  font-family: var(--font-heading);
+  font-size: 14px;
+  font-weight: 600;
+  color: #fff;
+}
+.ui-demo-header-sub { font-size: 10px; color: var(--text-on-dark-2); }
+.ui-demo-header-right {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.header-action {
+  width: 30px; height: 30px;
+  border-radius: var(--radius-md);
+  background: rgba(255,255,255,0.08);
+  display: flex; align-items: center; justify-content: center;
+  color: rgba(255,255,255,0.7);
+  font-size: 14px;
+  cursor: pointer;
+}
+.header-action:hover { background: rgba(255,255,255,0.14); }
+.header-avatar {
+  width: 30px; height: 30px;
+  border-radius: 50%;
+  background: var(--gold-500);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 700; color: #fff;
+}
+
+.ui-demo-body { display: flex; min-height: 460px; }
+
+.ui-sidebar {
+  width: 200px;
+  background: var(--bg-sidebar);
+  padding: 20px 12px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.sidebar-section-label {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(168,202,236,0.5);
+  padding: 0 8px;
+  margin: 12px 0 4px;
+}
+.sidebar-section-label:first-child { margin-top: 0; }
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 8px 10px;
+  border-radius: var(--radius-md);
+  font-size: 12px;
+  font-weight: 500;
+  color: rgba(168,202,236,0.8);
+  cursor: pointer;
+  transition: all var(--duration) var(--ease-out);
+}
+.nav-item:hover { background: var(--bg-sidebar-hover); color: #fff; }
+.nav-item.active {
+  background: var(--sapphire-500);
+  color: #fff;
+}
+.nav-item.active .nav-icon { color: var(--gold-300); }
+.nav-icon {
+  font-size: 15px;
+  width: 18px;
+  flex-shrink: 0;
+  opacity: 0.85;
+}
+.nav-badge {
+  margin-left: auto;
+  background: var(--gold-500);
+  color: #fff;
+  font-size: 9px;
+  font-weight: 700;
+  padding: 1px 6px;
+  border-radius: 20px;
+}
+
+/* ── Main content area ── */
+.ui-main {
+  flex: 1;
+  background: var(--bg-page);
+  padding: 20px;
+  overflow: hidden;
+}
+.ui-main-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+.ui-page-title {
+  font-family: var(--font-heading);
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+.stat-cards {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin-bottom: 16px;
+}
+.stat-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-lg);
+  padding: 14px;
+  box-shadow: var(--shadow-sm);
+}
+.stat-card.accent-left {
+  border-left: 3px solid var(--sapphire-600);
+}
+.stat-card.accent-gold {
+  border-left: 3px solid var(--gold-500);
+}
+.stat-num {
+  font-family: var(--font-heading);
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--sapphire-700);
+  line-height: 1;
+  margin-bottom: 2px;
+}
+.stat-label { font-size: 10px; color: var(--text-muted); }
+.stat-delta {
+  font-size: 10px;
+  color: var(--success-text);
+  margin-top: 4px;
+}
+
+/* Mini table */
+.mini-table {
+  background: var(--bg-card);
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+.mini-table table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 11px;
+}
+.mini-table th {
+  background: var(--surface-inset);
+  padding: 8px 12px;
+  text-align: left;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  border-bottom: 1px solid var(--border-default);
+}
+.mini-table td {
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--border-default);
+  color: var(--text-secondary);
+}
+.mini-table tr:last-child td { border-bottom: none; }
+.mini-table tr:hover td { background: var(--sapphire-50); }
+.td-name { font-weight: 600; color: var(--text-primary); }
+
+/* ══════════════════════════
+   COLOR OPTION CARDS
+   ══════════════════════════ */
+.options-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  margin-bottom: 32px;
+}
+.option-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  transition: all var(--duration) var(--ease-out);
+}
+.option-card:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); }
+.option-preview {
+  height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+.option-preview-a {
+  background: linear-gradient(135deg, #0C2A50 0%, #174A87 50%, #1E5FA8 100%);
+}
+.option-preview-b {
+  background: linear-gradient(135deg, #1A3A2A 0%, #1F5C3A 50%, #27824F 100%);
+}
+.option-preview-c {
+  background: linear-gradient(135deg, #2A1A08 0%, #5C3A0D 50%, #8B5E1A 100%);
+}
+.option-preview-logo {
+  font-family: var(--font-heading);
+  font-size: 26px;
+  font-weight: 700;
+  color: rgba(255,255,255,0.9);
+  letter-spacing: -0.02em;
+}
+.option-preview-accent {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 3px;
+}
+.option-preview-accent-a { background: var(--gold-400); }
+.option-preview-accent-b { background: #E8C84A; }
+.option-preview-accent-c { background: #D4AF37; }
+.option-body { padding: 18px; }
+.option-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 4px;
+}
+.option-name {
+  font-family: var(--font-heading);
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 8px;
+}
+.option-desc { font-size: 12px; color: var(--text-muted); line-height: 1.5; margin-bottom: 12px; }
+.option-colors {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+.opt-swatch {
+  width: 24px; height: 24px;
+  border-radius: 50%;
+  border: 2px solid rgba(255,255,255,0.8);
+  box-shadow: 0 0 0 1px rgba(0,0,0,0.08);
+}
+.pro-con-row { display: flex; gap: 8px; margin-bottom: 4px; }
+.pro-tag, .con-tag {
+  font-size: 10px;
+  padding: 2px 8px;
+  border-radius: 20px;
+}
+.pro-tag { background: var(--success-bg); color: var(--success-text); }
+.con-tag { background: var(--error-bg);   color: var(--error-text); }
+
+/* ══════════════════════════
+   TOKEN TABLE
+   ══════════════════════════ */
+.token-table {
+  background: var(--bg-card);
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  margin-bottom: 24px;
+}
+.token-table table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+  font-family: var(--font-mono);
+}
+.token-table th {
+  background: var(--sapphire-900);
+  color: var(--sapphire-200);
+  padding: 10px 14px;
+  text-align: left;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.token-table td {
+  padding: 8px 14px;
+  border-bottom: 1px solid var(--border-default);
+  color: var(--text-secondary);
+  vertical-align: middle;
+}
+.token-table tr:last-child td { border-bottom: none; }
+.token-table tr:hover td { background: var(--sapphire-50); }
+.token-name { color: var(--sapphire-600); font-weight: 500; }
+.token-val  { color: var(--neutral-600); }
+.token-dot {
+  display: inline-block;
+  width: 14px; height: 14px;
+  border-radius: 3px;
+  margin-right: 8px;
+  vertical-align: middle;
+  border: 1px solid rgba(0,0,0,0.1);
+}
+
+/* ══════════════════════════
+   CODE BLOCK
+   ══════════════════════════ */
+.code-block {
+  background: var(--sapphire-950);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  overflow-x: auto;
+  margin-bottom: 20px;
+  border: 1px solid var(--sapphire-800);
+}
+.code-block-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(168,202,236,0.1);
+}
+.code-block-label {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--sapphire-300);
+}
+.code-block-lang {
+  font-size: 10px;
+  color: var(--gold-400);
+  background: rgba(192,139,16,0.12);
+  padding: 2px 8px;
+  border-radius: 20px;
+}
+pre {
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  line-height: 1.8;
+  color: #C8D4E8;
+  white-space: pre;
+  margin: 0;
+}
+.code-key  { color: #7EC8E3; }
+.code-val  { color: #F5D98A; }
+.code-str  { color: #A8E6A3; }
+.code-com  { color: #6B7A8D; }
+.code-prop { color: #C8A0E4; }
+
+/* ══════════════════════════
+   ACCESSIBILITY
+   ══════════════════════════ */
+.a11y-row {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+.a11y-chip {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-card);
+  background: var(--bg-card);
+  box-shadow: var(--shadow-sm);
+}
+.a11y-dot {
+  width: 36px; height: 36px;
+  border-radius: var(--radius-md);
+  flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 700;
+}
+.a11y-info .label { font-size: 12px; font-weight: 600; color: var(--text-primary); }
+.a11y-info .ratio { font-size: 10px; color: var(--text-muted); font-family: var(--font-mono); }
+.a11y-pass { background: var(--success-bg); color: var(--success-text); }
+
+/* ══════════════════════════
+   FORM DEMO
+   ══════════════════════════ */
+.form-demo {
+  background: var(--bg-card);
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-lg);
+  padding: 28px;
+  box-shadow: var(--shadow-sm);
+  max-width: 540px;
+  margin-bottom: 20px;
+}
+.form-label {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  margin-bottom: 5px;
+}
+.form-input {
+  width: 100%;
+  padding: 9px 13px;
+  border: 1.5px solid var(--border-default);
+  border-radius: var(--radius-md);
+  font-family: var(--font-body);
+  font-size: 14px;
+  color: var(--text-primary);
+  background: var(--bg-card);
+  transition: border-color var(--duration) var(--ease-out), box-shadow var(--duration) var(--ease-out);
+  outline: none;
+  margin-bottom: 14px;
+}
+.form-input:focus {
+  border-color: var(--border-focus);
+  box-shadow: 0 0 0 3px rgba(30,95,168,0.12);
+}
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.form-select {
+  width: 100%;
+  padding: 9px 13px;
+  border: 1.5px solid var(--border-default);
+  border-radius: var(--radius-md);
+  font-family: var(--font-body);
+  font-size: 14px;
+  color: var(--text-primary);
+  background: var(--bg-card);
+  outline: none;
+  margin-bottom: 14px;
+}
+
+/* ══════════════════════════
+   TAILWIND CONFIG DISPLAY
+   ══════════════════════════ */
+.tw-code { font-family: var(--font-mono); }
+
+/* ══════════════════════════
+   DESIGN DIRECTION CARDS
+   ══════════════════════════ */
+.direction-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 32px;
+}
+.direction-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  box-shadow: var(--shadow-sm);
+}
+.direction-card .dir-icon {
+  width: 44px; height: 44px;
+  border-radius: var(--radius-lg);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px;
+  margin-bottom: 14px;
+}
+.dir-sapphire { background: var(--sapphire-100); color: var(--sapphire-600); }
+.dir-gold     { background: var(--gold-100);     color: var(--gold-600); }
+.dir-neutral  { background: var(--neutral-200);  color: var(--neutral-600); }
+.direction-card h4 {
+  font-family: var(--font-heading);
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: var(--text-primary);
+}
+.direction-card p { font-size: 12px; color: var(--text-muted); line-height: 1.6; }
+.direction-traits {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-top: 10px;
+}
+.trait {
+  font-size: 10px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 20px;
+  background: var(--sapphire-100);
+  color: var(--sapphire-700);
+}
+.trait.gold { background: var(--gold-100); color: var(--gold-700); }
+
+/* ══════════════════════════
+   FOOTER STRIP
+   ══════════════════════════ */
+.brand-footer {
+  background: var(--sapphire-900);
+  padding: 40px var(--space-6);
+  text-align: center;
+}
+.brand-footer-wordmark {
+  font-family: var(--font-heading);
+  font-size: 20px;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: -0.01em;
+  margin-bottom: 4px;
+}
+.brand-footer-sub { font-size: 11px; color: var(--sapphire-300); letter-spacing: 0.1em; }
+.brand-footer-divider {
+  width: 48px; height: 2px;
+  background: var(--gold-500);
+  border-radius: 1px;
+  margin: 16px auto;
+}
+.brand-footer-note { font-size: 11px; color: var(--sapphire-400); }
+
+/* ══════════════════════════
+   MISC UTILITIES
+   ══════════════════════════ */
+.divider {
+  border: none;
+  border-top: 1px solid var(--border-default);
+  margin: 40px 0;
+}
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+.three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; }
+.mb-4 { margin-bottom: 16px; }
+.mb-6 { margin-bottom: 24px; }
+
+/* Alert demos */
+.alert {
+  display: flex;
+  gap: 12px;
+  padding: 14px 16px;
+  border-radius: var(--radius-lg);
+  border: 1px solid;
+  margin-bottom: 10px;
+  font-size: 13px;
+  line-height: 1.5;
+}
+.alert-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+.alert-title { font-weight: 600; margin-bottom: 2px; font-size: 13px; }
+.alert-info    { background: var(--info-bg);    border-color: var(--info-border);    color: var(--info-text); }
+.alert-success { background: var(--success-bg); border-color: var(--success-border); color: var(--success-text); }
+.alert-warning { background: var(--warning-bg); border-color: var(--warning-border); color: var(--warning-text); }
+.alert-error   { background: var(--error-bg);   border-color: var(--error-border);   color: var(--error-text); }
+
+/* Video player mockup */
+.video-player {
+  background: #03101F;
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  box-shadow: var(--shadow-xl);
+  margin-bottom: 20px;
+}
+.video-screen {
+  aspect-ratio: 16/6;
+  background: linear-gradient(160deg, #071B35 0%, #0C2A50 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+.video-play-btn {
+  width: 56px; height: 56px;
+  border-radius: 50%;
+  background: var(--gold-500);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px;
+  color: #fff;
+  box-shadow: 0 4px 20px rgba(192,139,16,0.4);
+  cursor: pointer;
+}
+.video-watermark {
+  position: absolute;
+  top: 12px; right: 14px;
+  font-family: var(--font-heading);
+  font-size: 11px;
+  font-weight: 600;
+  color: rgba(255,255,255,0.4);
+  letter-spacing: 0.05em;
+}
+.video-controls {
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border-top: 1px solid rgba(255,255,255,0.06);
+}
+.video-progress {
+  flex: 1;
+  height: 3px;
+  background: rgba(255,255,255,0.12);
+  border-radius: 2px;
+  overflow: hidden;
+}
+.video-progress-fill {
+  height: 100%;
+  width: 35%;
+  background: var(--gold-400);
+  border-radius: 2px;
+}
+.video-time { font-size: 10px; color: rgba(255,255,255,0.5); font-family: var(--font-mono); }
+.video-btn {
+  width: 28px; height: 28px;
+  border-radius: var(--radius-sm);
+  background: rgba(255,255,255,0.08);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px;
+  color: rgba(255,255,255,0.7);
+  cursor: pointer;
+}
+.video-title {
+  font-size: 12px;
+  color: rgba(255,255,255,0.7);
+  font-weight: 500;
+  flex: 1;
+  margin: 0 8px;
+}
+
+/* ══════════════════════════
+   LOGO MARK VARIATIONS
+   ══════════════════════════ */
+.logo-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  align-items: center;
+  padding: 24px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-lg);
+  margin-bottom: 16px;
+}
+.logo-var {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+.logo-mark {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-lg);
+  font-family: var(--font-heading);
+}
+.logo-var-label { font-size: 10px; color: var(--text-muted); text-align: center; }
+
+/* Dark bg logo row */
+.logo-row-dark {
+  background: var(--sapphire-900);
+  border-color: var(--sapphire-800);
+}
+
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════
+     HERO / COVER
+     ═══════════════════════════════════════ -->
+<div class="hero">
+  <div class="hero-pattern"></div>
+  <div class="shell">
+    <div class="hero-content">
+      <div class="hero-eyebrow">
+        <span>✦</span>
+        Brand System v3 — Complete Identity
+      </div>
+      <h1>Jamia Arabia<br><em>Ahsan Ul Uloom</em></h1>
+      <p class="hero-sub">A complete visual identity system built for Islamic academic excellence — scaled across LMS, Admin Dashboard, Mobile App, Student Portal, and Marketing Website.</p>
+      <div class="hero-meta">
+        <div class="hero-tag"><span></span>Sapphire Primary Scale</div>
+        <div class="hero-tag"><span></span>Sacred Gold Accent</div>
+        <div class="hero-tag"><span></span>Warm Parchment Neutral</div>
+        <div class="hero-tag"><span></span>WCAG AA Compliant</div>
+        <div class="hero-tag"><span></span>Tailwind + CSS Variables</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     SHELL START
+     ═══════════════════════════════════════ -->
+<div class="shell">
+
+<!-- ══════════════════════════════════════
+     PHASE 1: BRAND COLORS
+     ══════════════════════════════════════ -->
+<div class="section-block">
+  <div class="section-header">
+    <div>
+      <div class="section-num">Phase 01</div>
+      <div class="section-title">Brand Color Architecture</div>
+    </div>
+    <div class="section-note">Sapphire as the scale color replaces any green. Maroon removed entirely. Gold retained as sacred accent.</div>
+  </div>
+
+  <!-- Named Primary Colors -->
+  <div class="palette-grid" style="grid-template-columns: repeat(4, 1fr);">
+    <div class="color-card">
+      <div class="color-card-swatch" style="background:#174A87;"></div>
+      <div class="color-card-body">
+        <div class="color-card-name">Sapphire 600</div>
+        <div class="color-card-hex">#174A87</div>
+        <div class="color-card-use">Primary brand, CTAs, sidebar accent, interactive states</div>
+      </div>
+    </div>
+    <div class="color-card">
+      <div class="color-card-swatch" style="background:#0C2A50;"></div>
+      <div class="color-card-body">
+        <div class="color-card-name">Sapphire 800</div>
+        <div class="color-card-hex">#0C2A50</div>
+        <div class="color-card-use">Sidebar background, dark headers, deep overlays</div>
+      </div>
+    </div>
+    <div class="color-card">
+      <div class="color-card-swatch" style="background:#C08B10;"></div>
+      <div class="color-card-body">
+        <div class="color-card-name">Sacred Gold 500</div>
+        <div class="color-card-hex">#C08B10</div>
+        <div class="color-card-use">Accents, highlights, CTA secondary, badges, separators</div>
+      </div>
+    </div>
+    <div class="color-card">
+      <div class="color-card-swatch" style="background:#F4F2ED;"></div>
+      <div class="color-card-body">
+        <div class="color-card-name">Parchment</div>
+        <div class="color-card-hex">#F4F2ED</div>
+        <div class="color-card-use">Page background — warm, manuscript-inspired ivory</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Full Scale Rows -->
+  <div class="scale-row">
+    <div class="scale-row-label">Sapphire Scale — Primary</div>
+    <div class="scale-swatches">
+      <div class="sw" style="background:#EEF4FB; color:#174A87;">50</div>
+      <div class="sw" style="background:#D4E5F5; color:#174A87;">100</div>
+      <div class="sw" style="background:#A8CAEC; color:#0C2A50;">200</div>
+      <div class="sw" style="background:#6BA5D9; color:#071B35;">300</div>
+      <div class="sw" style="background:#3B82C4; color:#fff;">400</div>
+      <div class="sw" style="background:#1E5FA8; color:#fff;">500</div>
+      <div class="sw" style="background:#174A87; color:#fff;">600</div>
+      <div class="sw" style="background:#113969; color:#fff;">700</div>
+      <div class="sw" style="background:#0C2A50; color:#D4E5F5;">800</div>
+      <div class="sw" style="background:#071B35; color:#A8CAEC;">900</div>
+      <div class="sw" style="background:#03101F; color:#6BA5D9;">950</div>
+    </div>
+  </div>
+
+  <div class="scale-row">
+    <div class="scale-row-label">Sacred Gold Scale — Accent</div>
+    <div class="scale-swatches">
+      <div class="sw" style="background:#FDF8EC; color:#A07308;">50</div>
+      <div class="sw" style="background:#FAF0CC; color:#A07308;">100</div>
+      <div class="sw" style="background:#F5DC8A; color:#7D5A05;">200</div>
+      <div class="sw" style="background:#EEC24A; color:#5A4003;">300</div>
+      <div class="sw" style="background:#D9A520; color:#3A2901;">400</div>
+      <div class="sw" style="background:#C08B10; color:#fff;">500</div>
+      <div class="sw" style="background:#A07308; color:#fff;">600</div>
+      <div class="sw" style="background:#7D5A05; color:#FAF0CC;">700</div>
+      <div class="sw" style="background:#5A4003; color:#F5DC8A;">800</div>
+      <div class="sw" style="background:#3A2901; color:#EEC24A;">900</div>
+      <div class="sw" style="background:#1E1500; color:#D9A520;">950</div>
+    </div>
+  </div>
+
+  <div class="scale-row">
+    <div class="scale-row-label">Warm Neutral Scale — Parchment</div>
+    <div class="scale-swatches">
+      <div class="sw" style="background:#FAFAF8; color:#6A6760;">50</div>
+      <div class="sw" style="background:#F4F3EF; color:#6A6760;">100</div>
+      <div class="sw" style="background:#E8E6E0; color:#4D4A45;">200</div>
+      <div class="sw" style="background:#D4D1C8; color:#333130;">300</div>
+      <div class="sw" style="background:#B8B4A9; color:#1E1D1B;">400</div>
+      <div class="sw" style="background:#8F8B80; color:#fff;">500</div>
+      <div class="sw" style="background:#6A6760; color:#fff;">600</div>
+      <div class="sw" style="background:#4D4A45; color:#E8E6E0;">700</div>
+      <div class="sw" style="background:#333130; color:#D4D1C8;">800</div>
+      <div class="sw" style="background:#1E1D1B; color:#B8B4A9;">900</div>
+      <div class="sw" style="background:#0F0F0E; color:#8F8B80;">950</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     PHASE 2: SEMANTIC COLORS
+     ══════════════════════════════════════ -->
+<div class="section-block">
+  <div class="section-header">
+    <div>
+      <div class="section-num">Phase 02</div>
+      <div class="section-title">Semantic Color System</div>
+    </div>
+    <div class="section-note">Status, feedback, and alert colors designed to harmonize with the Sapphire/Gold primary palette.</div>
+  </div>
+
+  <div class="semantic-grid">
+    <div class="sem-card" style="background:#EDF7F0; border-color:#6EBB88; color:#1A5C32;">
+      <div class="sem-icon">✓</div>
+      <div class="sem-label">Success</div>
+      <div style="font-family:var(--font-mono); font-size:10px; margin-bottom:6px;">#6EBB88 · #1A5C32</div>
+      <div class="sem-desc">Enrollment confirmed, payment success, course completion</div>
+    </div>
+    <div class="sem-card" style="background:#FEF8EA; border-color:#E5BA42; color:#7A5200;">
+      <div class="sem-icon">⚠</div>
+      <div class="sem-label">Warning</div>
+      <div style="font-family:var(--font-mono); font-size:10px; margin-bottom:6px;">#E5BA42 · #7A5200</div>
+      <div class="sem-desc">Deadline approaching, attendance alert, payment due</div>
+    </div>
+    <div class="sem-card" style="background:#FEF0F0; border-color:#E07070; color:#8B1A1A;">
+      <div class="sem-icon">✕</div>
+      <div class="sem-label">Error</div>
+      <div style="font-family:var(--font-mono); font-size:10px; margin-bottom:6px;">#E07070 · #8B1A1A</div>
+      <div class="sem-desc">Failed submissions, validation errors, expired sessions</div>
+    </div>
+    <div class="sem-card" style="background:#EEF4FB; border-color:#6BA5D9; color:#113969;">
+      <div class="sem-icon">ℹ</div>
+      <div class="sem-label">Info</div>
+      <div style="font-family:var(--font-mono); font-size:10px; margin-bottom:6px;">#6BA5D9 · #113969</div>
+      <div class="sem-desc">Announcements, system notices, academic calendar</div>
+    </div>
+  </div>
+
+  <!-- Alerts Demo -->
+  <div class="alert alert-info">
+    <div class="alert-icon">ℹ</div>
+    <div>
+      <div class="alert-title">New Semester Registration Open</div>
+      Registration for the upcoming Islamic Sciences semester is now open. Deadline: 15 Muharram 1447 AH.
+    </div>
+  </div>
+  <div class="alert alert-success">
+    <div class="alert-icon">✓</div>
+    <div>
+      <div class="alert-title">Course Completed</div>
+      Congratulations! You have successfully completed Ulum al-Quran — Intermediate Level.
+    </div>
+  </div>
+  <div class="alert alert-warning">
+    <div class="alert-icon">⚠</div>
+    <div>
+      <div class="alert-title">Assignment Due in 48 Hours</div>
+      Your Tafsir assignment for Surah Al-Baqarah is due on Thursday. Please submit before the deadline.
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     PHASE 3: DASHBOARD DEMO (Component Showcase)
+     ══════════════════════════════════════ -->
+<div class="section-block">
+  <div class="section-header">
+    <div>
+      <div class="section-num">Phase 03</div>
+      <div class="section-title">Admin Dashboard UI Preview</div>
+    </div>
+    <div class="section-note">Full-system component integration — sidebar, header, stat cards, and data table in the institutional Sapphire identity.</div>
+  </div>
+
+  <div class="ui-demo-wrapper">
+    <!-- Header -->
+    <div class="ui-demo-header">
+      <div class="ui-demo-header-logo">
+        <svg viewBox="0 0 18 18" fill="none">
+          <polygon points="9,1 11.5,6.5 17.5,7 13,11 14.5,17 9,14 3.5,17 5,11 0.5,7 6.5,6.5" fill="rgba(255,255,255,0.9)" stroke="rgba(255,255,255,0.3)" stroke-width="0.5"/>
+        </svg>
+      </div>
+      <div>
+        <div class="ui-demo-header-title">Jamia Arabia Ahsan Ul Uloom</div>
+        <div class="ui-demo-header-sub">LMS Administration Portal</div>
+      </div>
+      <div class="ui-demo-header-right">
+        <div class="header-action">🔍</div>
+        <div class="header-action">🔔</div>
+        <div class="header-avatar">AA</div>
+      </div>
+    </div>
+
+    <div class="ui-demo-body">
+      <!-- Sidebar -->
+      <div class="ui-sidebar">
+        <div class="sidebar-section-label">Main</div>
+        <div class="nav-item active">
+          <span class="nav-icon">⊞</span> Dashboard
+        </div>
+        <div class="nav-item">
+          <span class="nav-icon">🎓</span> Courses
+          <span class="nav-badge">24</span>
+        </div>
+        <div class="nav-item">
+          <span class="nav-icon">👥</span> Students
+        </div>
+        <div class="nav-item">
+          <span class="nav-icon">📖</span> Quran
+        </div>
+        <div class="nav-item">
+          <span class="nav-icon">📅</span> Schedule
+        </div>
+        <div class="sidebar-section-label">Academic</div>
+        <div class="nav-item">
+          <span class="nav-icon">📜</span> Fatwas
+        </div>
+        <div class="nav-item">
+          <span class="nav-icon">🎥</span> Library
+        </div>
+        <div class="nav-item">
+          <span class="nav-icon">📊</span> Reports
+        </div>
+        <div class="sidebar-section-label">Admin</div>
+        <div class="nav-item">
+          <span class="nav-icon">⚙</span> Settings
+        </div>
+        <div class="nav-item">
+          <span class="nav-icon">👤</span> Profile
+        </div>
+      </div>
+
+      <!-- Main Area -->
+      <div class="ui-main">
+        <div class="ui-main-header">
+          <div class="ui-page-title">Dashboard Overview</div>
+          <div style="display:flex; gap:8px; align-items:center;">
+            <span class="badge badge-gold">Ramadan 1447</span>
+            <button class="btn btn-primary btn-sm">+ New Course</button>
+          </div>
+        </div>
+
+        <div class="stat-cards">
+          <div class="stat-card accent-left">
+            <div class="stat-num">2,847</div>
+            <div class="stat-label">Total Students</div>
+            <div class="stat-delta">↑ +12% this month</div>
+          </div>
+          <div class="stat-card accent-left">
+            <div class="stat-num">94</div>
+            <div class="stat-label">Active Courses</div>
+            <div class="stat-delta">↑ +3 new</div>
+          </div>
+          <div class="stat-card accent-gold">
+            <div class="stat-num">127</div>
+            <div class="stat-label">Scholars / Faculty</div>
+            <div class="stat-delta">↑ +5 joined</div>
+          </div>
+          <div class="stat-card accent-gold">
+            <div class="stat-num">98%</div>
+            <div class="stat-label">Completion Rate</div>
+            <div class="stat-delta">↑ +2.1%</div>
+          </div>
+        </div>
+
+        <div class="mini-table">
+          <table>
+            <thead>
+              <tr>
+                <th>Course</th>
+                <th>Faculty</th>
+                <th>Students</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="td-name">Tafsir Al-Quran — Advanced</td>
+                <td>Mufti Ahsan</td>
+                <td>312</td>
+                <td><span class="badge badge-success">Live</span></td>
+              </tr>
+              <tr>
+                <td class="td-name">Hadith Sciences</td>
+                <td>Sheikh Bilal</td>
+                <td>248</td>
+                <td><span class="badge badge-success">Live</span></td>
+              </tr>
+              <tr>
+                <td class="td-name">Islamic Jurisprudence</td>
+                <td>Mufti Zubair</td>
+                <td>184</td>
+                <td><span class="badge badge-warning">Enrolling</span></td>
+              </tr>
+              <tr>
+                <td class="td-name">Arabic Grammar — Nahw</td>
+                <td>Ustadh Raza</td>
+                <td>421</td>
+                <td><span class="badge badge-success">Live</span></td>
+              </tr>
+              <tr>
+                <td class="td-name">Aqeedah Fundamentals</td>
+                <td>Sheikh Tariq</td>
+                <td>97</td>
+                <td><span class="badge badge-neutral">Draft</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     PHASE 4: TYPOGRAPHY
+     ══════════════════════════════════════ -->
+<div class="section-block">
+  <div class="section-header">
+    <div>
+      <div class="section-num">Phase 04</div>
+      <div class="section-title">Typography System</div>
+    </div>
+    <div class="section-note">Four-language typographic system: English, Arabic, Urdu, and UI mono for data.</div>
+  </div>
+
+  <!-- English Display -->
+  <div class="type-block">
+    <div class="type-meta">
+      <span>Playfair Display — Heading / Display</span>
+      <span>Serif · Academic Authority · Premium</span>
+    </div>
+    <div class="type-label">English Heading Font</div>
+    <div class="type-sample-h1" style="margin-bottom:8px;">Illuminating Minds<br>Through Sacred Knowledge</div>
+    <div class="type-sample-h2" style="margin-bottom:8px; color: var(--sapphire-700);">The Foundation of Islamic Scholarship</div>
+    <div class="type-sample-h3" style="margin-bottom:8px;">Advanced Tafsir Sciences</div>
+    <div class="type-sample-h4">Semester Registration 1447 AH</div>
+  </div>
+
+  <!-- Body Text -->
+  <div class="type-block">
+    <div class="type-meta">
+      <span>Nunito — Body / UI</span>
+      <span>Sans-serif · Readable · Approachable</span>
+    </div>
+    <div class="type-label">Body & Interface Font</div>
+    <div class="type-sample-body" style="margin-bottom:12px;">
+      Jamia Arabia Ahsan Ul Uloom has been a beacon of Islamic learning for generations, nurturing scholars who carry the light of Quranic wisdom to every corner of the world. Our curriculum combines classical Islamic sciences with modern pedagogical methods.
+    </div>
+    <div class="type-sample-sm">
+      Font Sizes: 13px · 14px · 15px · 16px · 18px — Line Heights: 1.5 · 1.65 · 1.75 · 2.0
+      <br>Weights: 300 Light · 400 Regular · 500 Medium · 600 SemiBold · 700 Bold
+    </div>
+  </div>
+
+  <!-- Arabic -->
+  <div class="type-block" dir="rtl">
+    <div class="type-meta" dir="ltr">
+      <span>Scheherazade New / Amiri Quran — Arabic</span>
+      <span>Classical calligraphic authority</span>
+    </div>
+    <div class="type-label" dir="ltr">Arabic & Quranic Font</div>
+    <div class="type-sample-arabic">
+      بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ
+    </div>
+    <div style="font-family:serif; font-size:20px; text-align:right; color:var(--sapphire-600); direction:rtl; margin-top:8px;">
+      جامعة عربية أحسن العلوم — منارة للعلم والمعرفة الإسلامية
+    </div>
+  </div>
+
+  <!-- Urdu -->
+  <div class="type-block" dir="rtl">
+    <div class="type-meta" dir="ltr">
+      <span>Noto Nastaliq Urdu / Jameel Noori Nastaleeq</span>
+      <span>Premium Nastaliq calligraphic tradition</span>
+    </div>
+    <div class="type-label" dir="ltr">Urdu / Nastaliq Font</div>
+    <div class="type-sample-urdu">
+      جامعہ عربیہ احسن العلوم — علم و عرفان کا سرچشمہ
+    </div>
+  </div>
+
+  <!-- Scale Table -->
+  <div class="token-table">
+    <table>
+      <thead>
+        <tr>
+          <th>Token</th>
+          <th>Size</th>
+          <th>Weight</th>
+          <th>Line Height</th>
+          <th>Use Case</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="token-name">--text-display</span></td>
+          <td class="token-val">48–64px</td>
+          <td class="token-val">700</td>
+          <td class="token-val">1.1</td>
+          <td style="font-size:11px; color:var(--text-muted);">Hero headings, landing pages</td>
+        </tr>
+        <tr>
+          <td><span class="token-name">--text-h1</span></td>
+          <td class="token-val">36–48px</td>
+          <td class="token-val">600–700</td>
+          <td class="token-val">1.15</td>
+          <td style="font-size:11px; color:var(--text-muted);">Page titles, section openers</td>
+        </tr>
+        <tr>
+          <td><span class="token-name">--text-h2</span></td>
+          <td class="token-val">28–36px</td>
+          <td class="token-val">600</td>
+          <td class="token-val">1.2</td>
+          <td style="font-size:11px; color:var(--text-muted);">Dashboard headers</td>
+        </tr>
+        <tr>
+          <td><span class="token-name">--text-h3</span></td>
+          <td class="token-val">22–28px</td>
+          <td class="token-val">600</td>
+          <td class="token-val">1.25</td>
+          <td style="font-size:11px; color:var(--text-muted);">Card titles, modal headers</td>
+        </tr>
+        <tr>
+          <td><span class="token-name">--text-h4</span></td>
+          <td class="token-val">18–22px</td>
+          <td class="token-val">500</td>
+          <td class="token-val">1.3</td>
+          <td style="font-size:11px; color:var(--text-muted);">Widget headers, subheadings</td>
+        </tr>
+        <tr>
+          <td><span class="token-name">--text-body-lg</span></td>
+          <td class="token-val">16–18px</td>
+          <td class="token-val">400</td>
+          <td class="token-val">1.75</td>
+          <td style="font-size:11px; color:var(--text-muted);">Course descriptions, articles</td>
+        </tr>
+        <tr>
+          <td><span class="token-name">--text-body</span></td>
+          <td class="token-val">14–15px</td>
+          <td class="token-val">400</td>
+          <td class="token-val">1.65</td>
+          <td style="font-size:11px; color:var(--text-muted);">UI copy, table cells, forms</td>
+        </tr>
+        <tr>
+          <td><span class="token-name">--text-sm</span></td>
+          <td class="token-val">12–13px</td>
+          <td class="token-val">400–500</td>
+          <td class="token-val">1.5</td>
+          <td style="font-size:11px; color:var(--text-muted);">Captions, badges, labels</td>
+        </tr>
+        <tr>
+          <td><span class="token-name">--text-xs</span></td>
+          <td class="token-val">10–11px</td>
+          <td class="token-val">500–700</td>
+          <td class="token-val">1.4</td>
+          <td style="font-size:11px; color:var(--text-muted);">Eyebrows, metadata, timestamps</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     PHASE 5: UI/UX DIRECTION
+     ══════════════════════════════════════ -->
+<div class="section-block">
+  <div class="section-header">
+    <div>
+      <div class="section-num">Phase 05</div>
+      <div class="section-title">UI/UX Experience Direction</div>
+    </div>
+  </div>
+
+  <div class="direction-grid">
+    <div class="direction-card">
+      <div class="dir-icon dir-sapphire">⚙</div>
+      <h4>Administrator</h4>
+      <p>Command and clarity. The admin should feel empowered — data-dense but never cluttered. Deep Sapphire sidebar conveys institutional authority. Gold accents signal important metrics.</p>
+      <div class="direction-traits">
+        <span class="trait">Authoritative</span>
+        <span class="trait">Data-rich</span>
+        <span class="trait">Efficient</span>
+        <span class="trait gold">Trusted</span>
+      </div>
+    </div>
+    <div class="direction-card">
+      <div class="dir-icon dir-gold">🎓</div>
+      <h4>Student</h4>
+      <p>Calm and welcoming. Students should feel they are entering a place of learning and spiritual growth. Warm parchment backgrounds, generous spacing, and Quranic geometric motifs create reverence.</p>
+      <div class="direction-traits">
+        <span class="trait">Inviting</span>
+        <span class="trait">Focused</span>
+        <span class="trait">Spiritual</span>
+        <span class="trait gold">Encouraging</span>
+      </div>
+    </div>
+    <div class="direction-card">
+      <div class="dir-icon dir-neutral">📜</div>
+      <h4>Scholar / Faculty</h4>
+      <p>Refined and scholarly. Faculty portals should evoke the gravitas of a great library — Playfair Display headings, structured layouts, and minimal chrome to keep focus on content and knowledge.</p>
+      <div class="direction-traits">
+        <span class="trait">Scholarly</span>
+        <span class="trait">Structured</span>
+        <span class="trait">Prestigious</span>
+        <span class="trait gold">Minimal</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     PHASE 6: COMPONENTS
+     ══════════════════════════════════════ -->
+<div class="section-block">
+  <div class="section-header">
+    <div>
+      <div class="section-num">Phase 06</div>
+      <div class="section-title">Component Library</div>
+    </div>
+    <div class="section-note">Spacing · Radius · Shadows · Hover States across all interactive elements.</div>
+  </div>
+
+  <!-- Buttons -->
+  <div class="type-label mb-4">Buttons</div>
+  <div class="btn-row">
+    <button class="btn btn-primary">Enroll Now</button>
+    <button class="btn btn-gold">Donate to Jamia</button>
+    <button class="btn btn-outline">View Courses</button>
+    <button class="btn btn-ghost">Cancel</button>
+    <button class="btn btn-primary btn-sm">Add Student</button>
+    <button class="btn btn-primary btn-lg">Begin Learning →</button>
+  </div>
+
+  <!-- Badges -->
+  <div class="type-label mb-4">Badges & Status Labels</div>
+  <div class="badge-row">
+    <span class="badge badge-sapphire">● Islamic Studies</span>
+    <span class="badge badge-gold">✦ Featured Course</span>
+    <span class="badge badge-success">✓ Enrolled</span>
+    <span class="badge badge-warning">⚠ Deadline Soon</span>
+    <span class="badge badge-error">✕ Overdue</span>
+    <span class="badge badge-neutral">Draft</span>
+    <span class="badge badge-sapphire">Semester 1</span>
+    <span class="badge badge-gold">Hafiz Track</span>
+    <span class="badge badge-success">Certificate Issued</span>
+  </div>
+
+  <!-- Cards -->
+  <div class="type-label mb-4">Cards</div>
+  <div class="cards-demo">
+    <div class="demo-card card-featured">
+      <div class="card-icon-wrap sapphire">📖</div>
+      <div class="card-title">Tafsir Al-Quran</div>
+      <div class="card-desc">Advanced Quranic exegesis with classical and contemporary approaches. 12-week intensive program.</div>
+    </div>
+    <div class="demo-card card-gold">
+      <div class="card-icon-wrap gold">🌟</div>
+      <div class="card-title">Arabic Sciences</div>
+      <div class="card-desc">Master Nahw, Sarf, and Balagha through structured curriculum from Mufti-level faculty.</div>
+    </div>
+    <div class="demo-card">
+      <div class="card-icon-wrap neutral">📜</div>
+      <div class="card-title">Hadith Studies</div>
+      <div class="card-desc">Comprehensive study of Hadith chains, narrators, and authentication methodologies.</div>
+    </div>
+  </div>
+
+  <!-- Analytics Cards -->
+  <div class="type-label mb-4">Analytics Cards</div>
+  <div style="display:grid; grid-template-columns: repeat(4,1fr); gap:12px; margin-bottom:20px;">
+    <div class="stat-card accent-left">
+      <div class="stat-num">2,847</div>
+      <div class="stat-label">Active Students</div>
+      <div class="stat-delta">↑ +12%</div>
+    </div>
+    <div class="stat-card accent-left">
+      <div class="stat-num">94</div>
+      <div class="stat-label">Live Courses</div>
+      <div class="stat-delta">↑ +3 new</div>
+    </div>
+    <div class="stat-card accent-gold">
+      <div class="stat-num" style="color:var(--gold-600);">PKR 4.2M</div>
+      <div class="stat-label">Revenue (MTD)</div>
+      <div class="stat-delta">↑ +8.4%</div>
+    </div>
+    <div class="stat-card accent-gold">
+      <div class="stat-num" style="color:var(--gold-600);">98%</div>
+      <div class="stat-label">Satisfaction</div>
+      <div class="stat-delta">↑ +2.1%</div>
+    </div>
+  </div>
+
+  <!-- Video Player -->
+  <div class="type-label mb-4">Video Player</div>
+  <div class="video-player">
+    <div class="video-screen">
+      <div class="video-watermark">JAAU LMS</div>
+      <div style="text-align:center;">
+        <div class="video-play-btn">▶</div>
+        <div style="color:rgba(255,255,255,0.5); font-size:11px; margin-top:10px; font-family:var(--font-heading); letter-spacing:0.04em;">Tafsir Al-Quran — Lesson 7</div>
+      </div>
+    </div>
+    <div class="video-controls">
+      <div class="video-btn">◀◀</div>
+      <div class="video-btn">▶</div>
+      <div class="video-btn">▶▶</div>
+      <div class="video-time">18:24</div>
+      <div class="video-progress">
+        <div class="video-progress-fill"></div>
+      </div>
+      <div class="video-time">52:10</div>
+      <div class="video-btn">⛶</div>
+    </div>
+  </div>
+
+  <!-- Form -->
+  <div class="type-label mb-4">Form Elements</div>
+  <div class="form-demo">
+    <div class="form-row">
+      <div>
+        <label class="form-label">Full Name</label>
+        <input class="form-input" type="text" placeholder="Muhammad Ali">
+      </div>
+      <div>
+        <label class="form-label">Student ID</label>
+        <input class="form-input" type="text" placeholder="JAAU-2847">
+      </div>
+    </div>
+    <label class="form-label">Course</label>
+    <select class="form-select">
+      <option>Tafsir Al-Quran — Advanced</option>
+      <option>Hadith Sciences</option>
+      <option>Arabic Grammar</option>
+    </select>
+    <label class="form-label">Email Address</label>
+    <input class="form-input" type="email" placeholder="student@jamia.edu">
+    <div style="display:flex; gap:10px;">
+      <button class="btn btn-primary">Submit Enrollment</button>
+      <button class="btn btn-ghost">Reset</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     PHASE 7: COLOR OPTIONS
+     ══════════════════════════════════════ -->
+<div class="section-block">
+  <div class="section-header">
+    <div>
+      <div class="section-num">Phase 07</div>
+      <div class="section-title">Brand Direction Options</div>
+    </div>
+    <div class="section-note">Three premium branding directions for strategic selection.</div>
+  </div>
+
+  <div class="options-grid">
+    <!-- Option A -->
+    <div class="option-card">
+      <div class="option-preview option-preview-a">
+        <div class="option-preview-logo">JAAU</div>
+        <div class="option-preview-accent option-preview-accent-a"></div>
+      </div>
+      <div class="option-body">
+        <div class="option-label">Option A — Recommended ✦</div>
+        <div class="option-name">Sapphire Scholarly</div>
+        <div class="option-desc">Deep sapphire institution identity with sacred gold accents. Communicates depth of knowledge, trustworthiness, and digital sophistication.</div>
+        <div class="option-colors">
+          <div class="opt-swatch" style="background:#174A87;"></div>
+          <div class="opt-swatch" style="background:#0C2A50;"></div>
+          <div class="opt-swatch" style="background:#C08B10;"></div>
+          <div class="opt-swatch" style="background:#EEC24A;"></div>
+          <div class="opt-swatch" style="background:#F4F2ED;"></div>
+        </div>
+        <div class="pro-con-row">
+          <span class="pro-tag">✓ Scalable across all platforms</span>
+        </div>
+        <div class="pro-con-row">
+          <span class="pro-tag">✓ Comparable to Yaqeen / Bayyinah</span>
+        </div>
+        <div class="pro-con-row">
+          <span class="pro-tag">✓ Strong digital contrast</span>
+        </div>
+        <div class="pro-con-row">
+          <span class="con-tag">~ More modern than traditional</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Option B -->
+    <div class="option-card">
+      <div class="option-preview option-preview-b">
+        <div class="option-preview-logo">JAAU</div>
+        <div class="option-preview-accent option-preview-accent-b"></div>
+      </div>
+      <div class="option-body">
+        <div class="option-label">Option B</div>
+        <div class="option-name">Emerald Heritage</div>
+        <div class="option-desc">Deep forest green evoking Prophet's ﷺ color, gold accents, aged parchment. Deeply traditional Islamic palette. (User: Maroon replaced green — this option for reference only.)</div>
+        <div class="option-colors">
+          <div class="opt-swatch" style="background:#1F5C3A;"></div>
+          <div class="opt-swatch" style="background:#1A3A2A;"></div>
+          <div class="opt-swatch" style="background:#E8C84A;"></div>
+          <div class="opt-swatch" style="background:#F0E8D0;"></div>
+          <div class="opt-swatch" style="background:#FAF5EC;"></div>
+        </div>
+        <div class="pro-con-row">
+          <span class="pro-tag">✓ Deep Islamic heritage</span>
+        </div>
+        <div class="pro-con-row">
+          <span class="pro-tag">✓ Highly recognizable</span>
+        </div>
+        <div class="pro-con-row">
+          <span class="con-tag">✕ Excluded per brief (no green)</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Option C -->
+    <div class="option-card">
+      <div class="option-preview option-preview-c">
+        <div class="option-preview-logo">JAAU</div>
+        <div class="option-preview-accent option-preview-accent-c"></div>
+      </div>
+      <div class="option-body">
+        <div class="option-label">Option C</div>
+        <div class="option-name">Amber Luxury Academy</div>
+        <div class="option-desc">Dark umber and warm amber — like illuminated manuscripts and gilded Qurans. Ultra-premium, luxury Islamic aesthetic comparable to high-end publishers.</div>
+        <div class="option-colors">
+          <div class="opt-swatch" style="background:#5C3A0D;"></div>
+          <div class="opt-swatch" style="background:#2A1A08;"></div>
+          <div class="opt-swatch" style="background:#D4AF37;"></div>
+          <div class="opt-swatch" style="background:#F5E6B8;"></div>
+          <div class="opt-swatch" style="background:#FDF8F0;"></div>
+        </div>
+        <div class="pro-con-row">
+          <span class="pro-tag">✓ Extremely premium feel</span>
+        </div>
+        <div class="pro-con-row">
+          <span class="pro-tag">✓ Unique — stands apart</span>
+        </div>
+        <div class="pro-con-row">
+          <span class="con-tag">~ Harder to implement digitally</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     PHASE 8: DESIGN TOKENS
+     ══════════════════════════════════════ -->
+<div class="section-block">
+  <div class="section-header">
+    <div>
+      <div class="section-num">Phase 08</div>
+      <div class="section-title">Design Tokens & Config</div>
+    </div>
+    <div class="section-note">CSS Variables · Tailwind Config · JSON Tokens · All in one deliverable.</div>
+  </div>
+
+  <!-- CSS Variables -->
+  <div class="code-block">
+    <div class="code-block-header">
+      <div class="code-block-label">CSS Custom Properties</div>
+      <div class="code-block-lang">CSS</div>
+    </div>
+<pre><span class="code-com">/* jamia-tokens.css */</span>
+<span class="code-key">:root</span> {
+  <span class="code-com">/* Primary Sapphire Scale */</span>
+  <span class="code-prop">--color-sapphire-50</span>:  <span class="code-val">#EEF4FB</span>;
+  <span class="code-prop">--color-sapphire-100</span>: <span class="code-val">#D4E5F5</span>;
+  <span class="code-prop">--color-sapphire-200</span>: <span class="code-val">#A8CAEC</span>;
+  <span class="code-prop">--color-sapphire-300</span>: <span class="code-val">#6BA5D9</span>;
+  <span class="code-prop">--color-sapphire-400</span>: <span class="code-val">#3B82C4</span>;
+  <span class="code-prop">--color-sapphire-500</span>: <span class="code-val">#1E5FA8</span>;
+  <span class="code-prop">--color-sapphire-600</span>: <span class="code-val">#174A87</span>; <span class="code-com">/* PRIMARY */</span>
+  <span class="code-prop">--color-sapphire-700</span>: <span class="code-val">#113969</span>;
+  <span class="code-prop">--color-sapphire-800</span>: <span class="code-val">#0C2A50</span>; <span class="code-com">/* SIDEBAR BG */</span>
+  <span class="code-prop">--color-sapphire-900</span>: <span class="code-val">#071B35</span>;
+  <span class="code-prop">--color-sapphire-950</span>: <span class="code-val">#03101F</span>;
+
+  <span class="code-com">/* Sacred Gold Scale */</span>
+  <span class="code-prop">--color-gold-50</span>:  <span class="code-val">#FDF8EC</span>;
+  <span class="code-prop">--color-gold-300</span>: <span class="code-val">#EEC24A</span>;
+  <span class="code-prop">--color-gold-400</span>: <span class="code-val">#D9A520</span>;
+  <span class="code-prop">--color-gold-500</span>: <span class="code-val">#C08B10</span>; <span class="code-com">/* GOLD ACCENT */</span>
+  <span class="code-prop">--color-gold-600</span>: <span class="code-val">#A07308</span>;
+
+  <span class="code-com">/* Semantic */</span>
+  <span class="code-prop">--color-success</span>: <span class="code-val">#6EBB88</span>;
+  <span class="code-prop">--color-warning</span>: <span class="code-val">#E5BA42</span>;
+  <span class="code-prop">--color-error</span>:   <span class="code-val">#E07070</span>;
+  <span class="code-prop">--color-info</span>:    <span class="code-val">#6BA5D9</span>;
+
+  <span class="code-com">/* Backgrounds */</span>
+  <span class="code-prop">--bg-page</span>:    <span class="code-val">#F4F2ED</span>;
+  <span class="code-prop">--bg-card</span>:    <span class="code-val">#FFFFFF</span>;
+  <span class="code-prop">--bg-sidebar</span>: <span class="code-val">#0C2A50</span>;
+  <span class="code-prop">--bg-header</span>:  <span class="code-val">#174A87</span>;
+
+  <span class="code-com">/* Text */</span>
+  <span class="code-prop">--text-primary</span>:   <span class="code-val">#1A1916</span>;
+  <span class="code-prop">--text-secondary</span>: <span class="code-val">#3D3B37</span>;
+  <span class="code-prop">--text-muted</span>:     <span class="code-val">#6A6760</span>;
+  <span class="code-prop">--text-disabled</span>:  <span class="code-val">#B8B4A9</span>;
+
+  <span class="code-com">/* Borders */</span>
+  <span class="code-prop">--border-default</span>: <span class="code-val">#D4D1C8</span>;
+  <span class="code-prop">--border-focus</span>:   <span class="code-val">#1E5FA8</span>;
+
+  <span class="code-com">/* Typography */</span>
+  <span class="code-prop">--font-heading</span>: <span class="code-str">'Playfair Display', Georgia, serif</span>;
+  <span class="code-prop">--font-body</span>:    <span class="code-str">'Nunito', system-ui, sans-serif</span>;
+  <span class="code-prop">--font-mono</span>:    <span class="code-str">'JetBrains Mono', monospace</span>;
+  <span class="code-prop">--font-arabic</span>:  <span class="code-str">'Scheherazade New', 'Amiri', serif</span>;
+  <span class="code-prop">--font-urdu</span>:    <span class="code-str">'Noto Nastaliq Urdu', serif</span>;
+
+  <span class="code-com">/* Radius */</span>
+  <span class="code-prop">--radius-sm</span>: <span class="code-val">4px</span>;  <span class="code-prop">--radius-md</span>: <span class="code-val">8px</span>;
+  <span class="code-prop">--radius-lg</span>: <span class="code-val">12px</span>; <span class="code-prop">--radius-xl</span>: <span class="code-val">16px</span>;
+}</pre>
+  </div>
+
+  <!-- Tailwind Config -->
+  <div class="code-block">
+    <div class="code-block-header">
+      <div class="code-block-label">Tailwind Theme Configuration</div>
+      <div class="code-block-lang">tailwind.config.js</div>
+    </div>
+<pre><span class="code-key">module.exports</span> = {
+  theme: {
+    extend: {
+      colors: {
+        sapphire: {
+          <span class="code-str">50</span>:  <span class="code-val">'#EEF4FB'</span>,
+          <span class="code-str">100</span>: <span class="code-val">'#D4E5F5'</span>,
+          <span class="code-str">200</span>: <span class="code-val">'#A8CAEC'</span>,
+          <span class="code-str">300</span>: <span class="code-val">'#6BA5D9'</span>,
+          <span class="code-str">400</span>: <span class="code-val">'#3B82C4'</span>,
+          <span class="code-str">500</span>: <span class="code-val">'#1E5FA8'</span>,
+          <span class="code-str">600</span>: <span class="code-val">'#174A87'</span>,  <span class="code-com">// PRIMARY</span>
+          <span class="code-str">700</span>: <span class="code-val">'#113969'</span>,
+          <span class="code-str">800</span>: <span class="code-val">'#0C2A50'</span>,  <span class="code-com">// SIDEBAR</span>
+          <span class="code-str">900</span>: <span class="code-val">'#071B35'</span>,
+          <span class="code-str">950</span>: <span class="code-val">'#03101F'</span>,
+        },
+        gold: {
+          <span class="code-str">50</span>:  <span class="code-val">'#FDF8EC'</span>,
+          <span class="code-str">300</span>: <span class="code-val">'#EEC24A'</span>,
+          <span class="code-str">400</span>: <span class="code-val">'#D9A520'</span>,
+          <span class="code-str">500</span>: <span class="code-val">'#C08B10'</span>,  <span class="code-com">// GOLD ACCENT</span>
+          <span class="code-str">600</span>: <span class="code-val">'#A07308'</span>,
+          <span class="code-str">700</span>: <span class="code-val">'#7D5A05'</span>,
+        },
+        parchment: {
+          <span class="code-str">50</span>:  <span class="code-val">'#FAFAF8'</span>,
+          <span class="code-str">100</span>: <span class="code-val">'#F4F2ED'</span>,
+          <span class="code-str">200</span>: <span class="code-val">'#E8E6E0'</span>,
+        }
+      },
+      fontFamily: {
+        heading: <span class="code-val">['Playfair Display', 'Georgia', 'serif']</span>,
+        body:    <span class="code-val">['Nunito', 'system-ui', 'sans-serif']</span>,
+        mono:    <span class="code-val">['JetBrains Mono', 'monospace']</span>,
+        arabic:  <span class="code-val">['Scheherazade New', 'Amiri', 'serif']</span>,
+        urdu:    <span class="code-val">['Noto Nastaliq Urdu', 'serif']</span>,
+      },
+      borderRadius: {
+        <span class="code-str">'sm'</span>: <span class="code-val">'4px'</span>, <span class="code-str">'md'</span>: <span class="code-val">'8px'</span>,
+        <span class="code-str">'lg'</span>: <span class="code-val">'12px'</span>, <span class="code-str">'xl'</span>: <span class="code-val">'16px'</span>,
+      },
+      boxShadow: {
+        <span class="code-str">'card'</span>:  <span class="code-val">'0 1px 3px rgba(7,27,53,0.08)'</span>,
+        <span class="code-str">'panel'</span>: <span class="code-val">'0 8px 24px rgba(7,27,53,0.12)'</span>,
+        <span class="code-str">'gold'</span>:  <span class="code-val">'0 4px 16px rgba(192,139,16,0.20)'</span>,
+      }
+    }
+  }
+}</pre>
+  </div>
+
+  <!-- JSON Tokens -->
+  <div class="code-block">
+    <div class="code-block-header">
+      <div class="code-block-label">Design Tokens JSON</div>
+      <div class="code-block-lang">tokens.json</div>
+    </div>
+<pre>{
+  <span class="code-str">"brand"</span>: {
+    <span class="code-str">"name"</span>: <span class="code-val">"Jamia Arabia Ahsan Ul Uloom"</span>,
+    <span class="code-str">"version"</span>: <span class="code-val">"3.0.0"</span>,
+    <span class="code-str">"primaryScale"</span>: <span class="code-val">"sapphire"</span>
+  },
+  <span class="code-str">"color"</span>: {
+    <span class="code-str">"primary"</span>:      <span class="code-val">"#174A87"</span>,
+    <span class="code-str">"primaryLight"</span>: <span class="code-val">"#1E5FA8"</span>,
+    <span class="code-str">"primaryDark"</span>:  <span class="code-val">"#0C2A50"</span>,
+    <span class="code-str">"accent"</span>:       <span class="code-val">"#C08B10"</span>,
+    <span class="code-str">"accentLight"</span>:  <span class="code-val">"#EEC24A"</span>,
+    <span class="code-str">"bgPage"</span>:       <span class="code-val">"#F4F2ED"</span>,
+    <span class="code-str">"bgCard"</span>:       <span class="code-val">"#FFFFFF"</span>,
+    <span class="code-str">"bgSidebar"</span>:    <span class="code-val">"#0C2A50"</span>,
+    <span class="code-str">"bgHeader"</span>:     <span class="code-val">"#174A87"</span>,
+    <span class="code-str">"textPrimary"</span>:  <span class="code-val">"#1A1916"</span>,
+    <span class="code-str">"textMuted"</span>:    <span class="code-val">"#6A6760"</span>,
+    <span class="code-str">"success"</span>:      <span class="code-val">"#6EBB88"</span>,
+    <span class="code-str">"warning"</span>:      <span class="code-val">"#E5BA42"</span>,
+    <span class="code-str">"error"</span>:        <span class="code-val">"#E07070"</span>,
+    <span class="code-str">"info"</span>:         <span class="code-val">"#6BA5D9"</span>
+  },
+  <span class="code-str">"typography"</span>: {
+    <span class="code-str">"fontHeading"</span>: <span class="code-val">"Playfair Display"</span>,
+    <span class="code-str">"fontBody"</span>:    <span class="code-val">"Nunito"</span>,
+    <span class="code-str">"fontArabic"</span>:  <span class="code-val">"Scheherazade New"</span>,
+    <span class="code-str">"fontUrdu"</span>:    <span class="code-val">"Noto Nastaliq Urdu"</span>
+  },
+  <span class="code-str">"spacing"</span>: {
+    <span class="code-str">"unit"</span>: <span class="code-val">4</span>,
+    <span class="code-str">"scale"</span>: <span class="code-val">[4, 8, 12, 16, 20, 24, 32, 40, 48, 64]</span>
+  },
+  <span class="code-str">"radius"</span>: {
+    <span class="code-str">"sm"</span>: <span class="code-val">"4px"</span>, <span class="code-str">"md"</span>: <span class="code-val">"8px"</span>,
+    <span class="code-str">"lg"</span>: <span class="code-val">"12px"</span>, <span class="code-str">"xl"</span>: <span class="code-val">"16px"</span>
+  }
+}</pre>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     ACCESSIBILITY
+     ══════════════════════════════════════ -->
+<div class="section-block">
+  <div class="section-header">
+    <div>
+      <div class="section-num">Phase 08b</div>
+      <div class="section-title">Accessibility — WCAG AA Review</div>
+    </div>
+  </div>
+
+  <div class="a11y-row">
+    <div class="a11y-chip">
+      <div class="a11y-dot" style="background:#174A87; color:#fff; font-size:9px;">Aa</div>
+      <div class="a11y-info">
+        <div class="label">White on Sapphire-600</div>
+        <div class="ratio">Contrast: 7.2:1 · AAA ✓</div>
+      </div>
+      <span class="badge badge-success">AAA</span>
+    </div>
+    <div class="a11y-chip">
+      <div class="a11y-dot" style="background:#0C2A50; color:#D4E5F5; font-size:9px;">Aa</div>
+      <div class="a11y-info">
+        <div class="label">Sapphire-100 on Sapphire-800</div>
+        <div class="ratio">Contrast: 9.1:1 · AAA ✓</div>
+      </div>
+      <span class="badge badge-success">AAA</span>
+    </div>
+    <div class="a11y-chip">
+      <div class="a11y-dot" style="background:#F4F2ED; color:#1A1916; font-size:9px;">Aa</div>
+      <div class="a11y-info">
+        <div class="label">Dark text on Parchment</div>
+        <div class="ratio">Contrast: 14.8:1 · AAA ✓</div>
+      </div>
+      <span class="badge badge-success">AAA</span>
+    </div>
+    <div class="a11y-chip">
+      <div class="a11y-dot" style="background:#C08B10; color:#fff; font-size:9px;">Aa</div>
+      <div class="a11y-info">
+        <div class="label">White on Gold-500</div>
+        <div class="ratio">Contrast: 3.4:1 · AA Large ✓</div>
+      </div>
+      <span class="badge badge-warning">AA Large</span>
+    </div>
+    <div class="a11y-chip">
+      <div class="a11y-dot" style="background:#174A87; color:#EEC24A; font-size:9px;">Aa</div>
+      <div class="a11y-info">
+        <div class="label">Gold-300 on Sapphire-600</div>
+        <div class="ratio">Contrast: 5.1:1 · AA ✓</div>
+      </div>
+      <span class="badge badge-success">AA</span>
+    </div>
+  </div>
+
+  <div style="background:var(--info-bg); border:1px solid var(--info-border); border-radius:var(--radius-lg); padding:16px; font-size:13px; color:var(--info-text); margin-top:12px;">
+    <strong>Recommendation:</strong> Use Gold-500 only for decorative elements and large display text (≥18px bold or ≥24px regular) where AA Large applies. For small body text on gold backgrounds, darken to Gold-700 (#7D5A05) for full AA compliance.
+  </div>
+</div>
+
+</div><!-- /shell -->
+
+<!-- ══════════════════════════════════════
+     FOOTER
+     ══════════════════════════════════════ -->
+<div class="brand-footer">
+  <div class="brand-footer-wordmark">Jamia Arabia Ahsan Ul Uloom</div>
+  <div class="brand-footer-sub">BRAND SYSTEM v3 — Complete Visual Identity</div>
+  <div class="brand-footer-divider"></div>
+  <div class="brand-footer-note">Sapphire Primary Scale · Sacred Gold Accent · Playfair Display + Nunito · WCAG AA Compliant · Tailwind Ready</div>
+</div>
+
+</body>
+</html>

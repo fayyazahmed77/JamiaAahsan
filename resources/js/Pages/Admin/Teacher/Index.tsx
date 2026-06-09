@@ -1,0 +1,302 @@
+import React, { useState } from 'react';
+import { Head, router, useForm } from '@inertiajs/react';
+import { usePermission } from '@/hooks/usePermission';
+import AdminLayout from '@/Layouts/AdminLayout';
+import { Card, CardBody } from '@/Components/ui/Card';
+import { Button } from '@/Components/ui/Button';
+import { Input } from '@/Components/ui/Input';
+import { Select } from '@/Components/ui/Select';
+import { SearchableSelect } from '@/Components/ui/SearchableSelect';
+import { Badge } from '@/Components/ui/Badge';
+import { DataTable } from '@/Components/ui/DataTable';
+import { Modal } from '@/Components/ui/Modal';
+import { ConfirmDialog } from '@/Components/ui/ConfirmDialog';
+import type { Teacher, PageMeta } from '@/types/models';
+import type { ColumnDef } from '@tanstack/react-table';
+
+interface Props {
+    teachers: {
+        data: Teacher[];
+        current_page: number;
+        last_page: number;
+        per_page: number;
+        total: number;
+        from: number | null;
+        to: number | null;
+    };
+    filters: {
+        search?: string;
+        status?: string;
+    };
+}
+
+export default function TeacherIndex({ teachers, filters }: Props) {
+    const { hasPermission } = usePermission();
+    const [search, setSearch] = useState(filters.search ?? '');
+    const [statusFilter, setStatusFilter] = useState(filters.status ?? '');
+    const [modalOpen, setModalOpen] = useState(false);
+    const [editingTeacher, setEditingTeacher] = useState<Teacher | null>(null);
+    const [deleteTeacher, setDeleteTeacher] = useState<Teacher | null>(null);
+
+    const { data, setData, post, put, processing, errors, reset, clearErrors } = useForm({
+        name: '',
+        urdu_name: '',
+        status: true,
+    });
+
+    const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setSearch(e.target.value);
+    };
+
+    const handleFilterChange = (e: { target: { value: string } }) => {
+        const val = e.target.value;
+        setStatusFilter(val);
+        applyFilters(search, val);
+    };
+
+    const applyFilters = (searchText: string, statusText: string) => {
+        router.get(
+            '/admin/teachers',
+            { search: searchText || undefined, status: statusText || undefined },
+            { preserveState: true, replace: true }
+        );
+    };
+
+    const handleSearchSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+        applyFilters(search, statusFilter);
+    };
+
+    const openAddModal = () => {
+        reset();
+        clearErrors();
+        setEditingTeacher(null);
+        setModalOpen(true);
+    };
+
+    const openEditModal = (teacher: Teacher) => {
+        clearErrors();
+        setEditingTeacher(teacher);
+        setData({
+            name: teacher.name,
+            urdu_name: teacher.urdu_name,
+            status: teacher.status,
+        });
+        setModalOpen(true);
+    };
+
+    const handleSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+        if (editingTeacher) {
+            put(`/admin/teachers/${editingTeacher.id}`, {
+                onSuccess: () => {
+                    setModalOpen(false);
+                    reset();
+                },
+            });
+        } else {
+            post('/admin/teachers', {
+                onSuccess: () => {
+                    setModalOpen(false);
+                    reset();
+                },
+            });
+        }
+    };
+
+    const handleDelete = () => {
+        if (!deleteTeacher) return;
+        router.delete(`/admin/teachers/${deleteTeacher.id}`, {
+            onSuccess: () => setDeleteTeacher(null),
+        });
+    };
+
+    const handlePageChange = (page: number) => {
+        router.get(
+            '/admin/teachers',
+            { page, search: search || undefined, status: statusFilter || undefined },
+            { preserveState: true }
+        );
+    };
+
+    const columns: ColumnDef<Teacher>[] = [
+        {
+            accessorKey: 'id',
+            header: 'ID',
+            size: 60,
+        },
+        {
+            accessorKey: 'name',
+            header: 'English Name',
+            cell: ({ row }) => (
+                <div style={{ fontWeight: 600, color: 'var(--text)' }}>
+                    {row.original.name}
+                </div>
+            ),
+        },
+        {
+            accessorKey: 'urdu_name',
+            header: 'Urdu Name',
+            cell: ({ row }) => (
+                <div style={{ fontSize: '1.1rem', fontFamily: "'Noto Nastaliq Urdu', serif", color: 'var(--text)', direction: 'rtl', textAlign: 'right' }}>
+                    {row.original.urdu_name}
+                </div>
+            ),
+        },
+        {
+            accessorKey: 'status',
+            header: 'Status',
+            cell: ({ row }) => (
+                <Badge variant={row.original.status ? 'success' : 'muted'}>
+                    {row.original.status ? 'Active' : 'Inactive'}
+                </Badge>
+            ),
+            size: 100,
+        },
+        {
+            id: 'actions',
+            header: 'Actions',
+            cell: ({ row }) => (
+                <div style={{ display: 'flex', gap: 8 }}>
+                    {hasPermission('edit teachers') && (
+                        <Button variant="secondary" size="sm" onClick={() => openEditModal(row.original)}>
+                            Edit
+                        </Button>
+                    )}
+                    {hasPermission('delete teachers') && (
+                        <Button variant="destructive" size="sm" onClick={() => setDeleteTeacher(row.original)}>
+                            Delete
+                        </Button>
+                    )}
+                </div>
+            ),
+            size: 140,
+        },
+    ];
+
+    const meta: PageMeta = {
+        current_page: teachers.current_page,
+        last_page: teachers.last_page,
+        per_page: teachers.per_page,
+        total: teachers.total,
+        from: teachers.from,
+        to: teachers.to,
+    };
+
+    const toolbar = (
+        <form onSubmit={handleSearchSubmit} style={{ display: 'flex', flexWrap: 'wrap', gap: 12, alignItems: 'flex-end', width: '100%' }}>
+            <div style={{ flex: 1, minWidth: 200 }}>
+                <Input
+                    placeholder="Search teachers..."
+                    value={search}
+                    onChange={handleSearchChange}
+                    className="w-full"
+                />
+            </div>
+            <div style={{ width: 150 }}>
+                <SearchableSelect
+                    value={statusFilter}
+                    onChange={handleFilterChange}
+                    options={[
+                        { value: '1', label: 'Active' },
+                        { value: '0', label: 'Inactive' },
+                    ]}
+                    placeholder="All Status"
+                />
+            </div>
+            <Button type="submit" variant="primary">
+                Search
+            </Button>
+            <Button type="button" variant="secondary" onClick={() => {
+                setSearch('');
+                setStatusFilter('');
+                router.get('/admin/teachers');
+            }}>
+                Reset
+            </Button>
+        </form>
+    );
+
+    return (
+        <AdminLayout
+            title="Teachers"
+            action={
+                hasPermission('create teachers') ? (
+                    <Button variant="primary" onClick={openAddModal}>
+                        Add Teacher
+                    </Button>
+                ) : null
+            }
+        >
+            <Head title="Teachers" />
+
+            <Card>
+                <CardBody>
+                    <DataTable
+                        columns={columns}
+                        data={teachers.data}
+                        meta={meta}
+                        onPageChange={handlePageChange}
+                        toolbar={toolbar}
+                    />
+                </CardBody>
+            </Card>
+
+            {/* Add / Edit Modal */}
+            <Modal
+                open={modalOpen}
+                onClose={() => setModalOpen(false)}
+                title={editingTeacher ? 'Edit Teacher' : 'Add Teacher'}
+                footer={
+                    <>
+                        <Button variant="secondary" onClick={() => setModalOpen(false)}>
+                            Cancel
+                        </Button>
+                        <Button variant="primary" onClick={handleSubmit} disabled={processing}>
+                            {editingTeacher ? 'Update' : 'Create'}
+                        </Button>
+                    </>
+                }
+            >
+                <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+                    <Input
+                        label="English Name"
+                        required
+                        value={data.name}
+                        onChange={(e) => setData('name', e.target.value)}
+                        error={errors.name}
+                    />
+                    <Input
+                        label="Urdu Name"
+                        required
+                        value={data.urdu_name}
+                        onChange={(e) => setData('urdu_name', e.target.value)}
+                        error={errors.urdu_name}
+                        placeholder="مثلاً: مفتی عبد الرحمن"
+                        style={{ textAlign: 'right', direction: 'rtl' }}
+                    />
+                    <Select
+                        label="Status"
+                        required
+                        value={data.status ? '1' : '0'}
+                        onChange={(e) => setData('status', e.target.value === '1')}
+                        options={[
+                            { value: '1', label: 'Active' },
+                            { value: '0', label: 'Inactive' },
+                        ]}
+                    />
+                </form>
+            </Modal>
+
+            {/* Delete Confirmation */}
+            <ConfirmDialog
+                open={!!deleteTeacher}
+                onClose={() => setDeleteTeacher(null)}
+                onConfirm={handleDelete}
+                title="Delete Teacher"
+                message={`Are you sure you want to delete teacher "${deleteTeacher?.name}"? This action cannot be undone.`}
+                variant="danger"
+            />
+        </AdminLayout>
+    );
+}
