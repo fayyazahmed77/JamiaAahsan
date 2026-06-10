@@ -16,8 +16,19 @@ import ArticlesBlog from '@/Components/Public/ArticlesBlog';
 import DonateSection from '@/Components/Public/DonateSection';
 import AppPromotion from '@/Components/Public/AppPromotion';
 
+interface Banner {
+    id: number;
+    title?: string;
+    subtitle?: string;
+    image_url?: string;
+    link_url?: string;
+    button_text?: string;
+    is_active: boolean;
+    sort_order?: number;
+}
+
 interface HomeProps {
-    banners: any[];
+    banners: Banner[];
     prayer_timings: PrayerTiming[];
     latest_news: NewsType[];
     featured_audio: Audio[];

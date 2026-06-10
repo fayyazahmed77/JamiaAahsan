@@ -58,6 +58,16 @@ interface AttendanceSummary {
     records: AttendanceRecord[];
 }
 
+interface CourseMaterial {
+    id: number;
+    title: string;
+    type: 'pdf' | 'video' | 'audio' | 'link' | 'document' | string;
+    url?: string;
+    file_url?: string;
+    size?: string;
+    created_at?: string;
+}
+
 interface Props {
     enrollment: {
         id: number;
@@ -69,7 +79,7 @@ interface Props {
     course: Course;
     assignments: Assignment[];
     attendance: AttendanceSummary;
-    materials: any[];
+    materials: CourseMaterial[];
 }
 
 export default function CourseShow({ enrollment, course, assignments, attendance, materials }: Props) {

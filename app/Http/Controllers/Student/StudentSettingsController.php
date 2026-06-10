@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Student;
 
 use App\Http\Controllers\Controller;
+use App\Services\StudentService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -12,6 +13,8 @@ use Inertia\Response;
 
 class StudentSettingsController extends Controller
 {
+    public function __construct(private readonly StudentService $studentService) {}
+
     public function index(): Response
     {
         $student  = Auth::guard('student')->user();
@@ -50,10 +53,7 @@ class StudentSettingsController extends Controller
         ]);
 
         $student = Auth::guard('student')->user();
-        $student->settings()->updateOrCreate(
-            ['student_id' => $student->id],
-            $validated
-        );
+        $this->studentService->updateSettings($student, $validated);
 
         return back()->with('success', 'Settings saved successfully.');
     }
@@ -61,8 +61,8 @@ class StudentSettingsController extends Controller
     public function updatePassword(Request $request)
     {
         $request->validate([
-            'current_password'      => ['required', 'string'],
-            'password'              => ['required', 'confirmed', Password::min(8)],
+            'current_password' => ['required', 'string'],
+            'password'         => ['required', 'confirmed', Password::min(8)],
         ]);
 
         $student = Auth::guard('student')->user();
@@ -71,7 +71,7 @@ class StudentSettingsController extends Controller
             return back()->withErrors(['current_password' => 'The current password is incorrect.']);
         }
 
-        $student->update(['password' => Hash::make($request->password)]);
+        $this->studentService->updatePassword($student, $request->password);
 
         return back()->with('success', 'Password updated successfully.');
     }

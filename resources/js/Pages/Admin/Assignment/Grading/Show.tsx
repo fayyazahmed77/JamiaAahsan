@@ -55,7 +55,7 @@ export default function GradingShow({ assignment, grade_sheet }: Props) {
     function save(e: FormEvent, studentId: number) {
         e.preventDefault();
         setSaving(studentId);
-        router.post(route('admin.assignments.grade', assignment.id), {
+        router.post(`/admin/assignments/${assignment.id}/grade`, {
             student_id:     studentId,
             marks_obtained: edits[studentId]?.marks,
             feedback:       edits[studentId]?.feedback,
@@ -81,7 +81,7 @@ export default function GradingShow({ assignment, grade_sheet }: Props) {
             <div className="mb-6 flex items-start justify-between gap-4">
                 <div>
                     <div className="flex items-center gap-2 mb-1">
-                        <Link href={route('admin.assignments.grading')}
+                        <Link href="/admin/assignments/grading"
                             className="text-sm text-gray-400 hover:text-gray-700 transition">
                             ← Assignments
                         </Link>

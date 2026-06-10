@@ -3,14 +3,16 @@
 namespace App\Http\Controllers\Student;
 
 use App\Http\Controllers\Controller;
+use App\Services\StudentService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 use Inertia\Response;
 
 class StudentProfileController extends Controller
 {
+    public function __construct(private readonly StudentService $studentService) {}
+
     public function show(): Response
     {
         $student = Auth::guard('student')->user()->load(['profile', 'guardians', 'program', 'batch']);
@@ -25,13 +27,10 @@ class StudentProfileController extends Controller
     {
         $student = Auth::guard('student')->user();
 
-        $validated = $request->validate([
+        $studentData = $request->validate([
             'phone' => ['nullable', 'string', 'max:25'],
         ]);
 
-        $student->update($validated);
-
-        // Update extended profile
         $profileData = $request->validate([
             'father_name'               => ['nullable', 'string', 'max:100'],
             'mother_name'               => ['nullable', 'string', 'max:100'],
@@ -52,10 +51,7 @@ class StudentProfileController extends Controller
             'emergency_contact_relation'=> ['nullable', 'string', 'max:60'],
         ]);
 
-        $student->profile()->updateOrCreate(
-            ['student_id' => $student->id],
-            $profileData
-        );
+        $this->studentService->updateProfile($student, $studentData, $profileData);
 
         return back()->with('success', 'Profile updated successfully.');
     }
@@ -68,13 +64,7 @@ class StudentProfileController extends Controller
 
         $student = Auth::guard('student')->user();
 
-        // Delete old photo
-        if ($student->profile_photo) {
-            Storage::disk('public')->delete($student->profile_photo);
-        }
-
-        $path = $request->file('photo')->store('student-photos', 'public');
-        $student->update(['profile_photo' => $path]);
+        $this->studentService->updatePhoto($student, $request->file('photo'));
 
         return back()->with('success', 'Profile photo updated successfully.');
     }

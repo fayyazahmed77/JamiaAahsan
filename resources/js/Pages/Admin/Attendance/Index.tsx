@@ -41,12 +41,12 @@ export default function AttendanceIndex({ courses, course, students, attendance,
     const [flash, setFlash]     = useState('');
 
     // ── Filter form (course + date) ───────────────────────────────────────────
-    const [filterCourse, setFilterCourse] = useState(filters.course_id ?? '');
+    const [filterCourse, setFilterCourse] = useState<string | number>(filters.course_id ?? '');
     const [filterDate,   setFilterDate]   = useState(filters.date ?? date);
 
     function applyFilter(e: FormEvent) {
         e.preventDefault();
-        router.get(route('admin.attendance.index'), { course_id: filterCourse, date: filterDate }, { preserveState: false });
+        router.get('/admin/attendance', { course_id: filterCourse, date: filterDate }, { preserveState: false });
     }
 
     // ── Quick-set all ─────────────────────────────────────────────────────────
@@ -66,7 +66,7 @@ export default function AttendanceIndex({ courses, course, students, attendance,
     function save(e: FormEvent) {
         e.preventDefault();
         setSaving(true);
-        router.post(route('admin.attendance.store'), {
+        router.post('/admin/attendance', {
             course_id: course!.id,
             date: filterDate,
             records: students.map(s => ({
@@ -96,7 +96,7 @@ export default function AttendanceIndex({ courses, course, students, attendance,
                     <h1 className="text-2xl font-bold text-gray-900">Attendance</h1>
                     <p className="text-sm text-gray-500 mt-1">Mark daily student attendance by course</p>
                 </div>
-                <Link href={route('admin.attendance.report')}
+                <Link href="/admin/attendance/report"
                     className="inline-flex items-center gap-2 rounded-lg bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow hover:bg-indigo-700 transition">
                     📊 View Report
                 </Link>
@@ -109,7 +109,7 @@ export default function AttendanceIndex({ courses, course, students, attendance,
                     <label className="block text-xs font-medium text-gray-600 mb-1">Course</label>
                     <select id="course_id"
                         value={filterCourse}
-                        onChange={e => setFilterCourse(e.target.value as any)}
+                        onChange={e => setFilterCourse(e.target.value)}
                         className="w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm shadow-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 outline-none">
                         <option value="">— Select course —</option>
                         {courses.map(c => (

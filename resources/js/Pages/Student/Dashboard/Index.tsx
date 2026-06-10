@@ -4,8 +4,45 @@ import { motion } from 'framer-motion';
 import StudentLayout from '@/Layouts/StudentLayout';
 import type {
     StudentUser, IslamicContent, JourneyStats,
-    DashboardAlert, AttendanceSummary, StudentNotification
+    DashboardAlert, AttendanceSummary
 } from '@/types/student';
+
+interface TodayClass {
+    subject: string;
+    teacher: string;
+    time: string;
+    room?: string;
+}
+
+interface DashboardCourse {
+    id: number;
+    name: string;
+    code: string;
+    teacher_name?: string;
+    progress_percentage?: number;
+}
+
+interface DashboardAssignment {
+    id: number;
+    title: string;
+    course: string;
+    due: string;
+    status: 'pending' | 'late' | 'submitted';
+}
+
+interface UpcomingExam {
+    id: number;
+    subject: string;
+    date: string;
+    course_name?: string;
+}
+
+interface HifzSummary {
+    juz_completed: number;
+    total_juz_target: number;
+    current_surah?: string;
+    status: string;
+}
 
 interface Props {
     student: StudentUser;
@@ -13,12 +50,12 @@ interface Props {
     journey_stats: JourneyStats;
     alerts: DashboardAlert[];
     unread_count: number;
-    today_classes: any[];
-    courses: any[];
-    assignments: any[];
+    today_classes: TodayClass[];
+    courses: DashboardCourse[];
+    assignments: DashboardAssignment[];
     attendance: AttendanceSummary;
-    upcoming_exams: any[];
-    hifz: any | null;
+    upcoming_exams: UpcomingExam[];
+    hifz: HifzSummary | null;
 }
 
 // ─── Widget: Welcome Banner ────────────────────────────────────────────────
@@ -257,7 +294,7 @@ function IslamicJourneyCard({ stats }: { stats: JourneyStats }) {
 }
 
 // ─── Widget: Today's Classes ───────────────────────────────────────────────
-function TodayClasses({ classes }: { classes: any[] }) {
+function TodayClasses({ classes }: { classes: TodayClass[] }) {
     return (
         <motion.div
             initial={{ opacity: 0, y: 12 }}
@@ -349,7 +386,7 @@ function AttendanceWidget({ attendance }: { attendance: AttendanceSummary }) {
 }
 
 // ─── Widget: Pending Assignments ───────────────────────────────────────────
-function AssignmentAlerts({ assignments }: { assignments: any[] }) {
+function AssignmentAlerts({ assignments }: { assignments: DashboardAssignment[] }) {
     return (
         <motion.div
             initial={{ opacity: 0, y: 12 }}
@@ -394,7 +431,7 @@ function AssignmentAlerts({ assignments }: { assignments: any[] }) {
 }
 
 // ─── Widget: Upcoming Exams ────────────────────────────────────────────────
-function UpcomingExams({ exams }: { exams: any[] }) {
+function UpcomingExams({ exams }: { exams: UpcomingExam[] }) {
     return (
         <motion.div
             initial={{ opacity: 0, y: 12 }}

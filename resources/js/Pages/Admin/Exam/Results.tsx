@@ -65,7 +65,7 @@ export default function ExamResults({ exam, sheet }: Props) {
             remarks:        edits[r.student_id]?.remarks || null,
         }));
 
-        router.post(route('admin.exams.results.save', exam.id), { results }, {
+        router.post(`/admin/exams/${exam.id}/results`, { results }, {
             onSuccess: () => { setFlash('Results saved!'); setTimeout(() => setFlash(''), 3000); },
             onFinish:  () => setSaving(false),
             preserveScroll: true,
@@ -85,7 +85,7 @@ export default function ExamResults({ exam, sheet }: Props) {
             {/* Header */}
             <div className="mb-6 flex items-start justify-between gap-4 flex-wrap">
                 <div>
-                    <Link href={route('admin.exams.index')}
+                    <Link href="/admin/exams"
                         className="text-sm text-gray-400 hover:text-gray-700 transition mb-1 inline-block">
                         ← Exam Schedule
                     </Link>

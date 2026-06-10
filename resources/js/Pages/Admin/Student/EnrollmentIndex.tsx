@@ -7,8 +7,9 @@ interface StudentRow {
     id: number; name: string; student_id_number: string;
     current_year: number; current_semester: number; enrolled_count: number;
 }
+interface PaginationLink { url: string | null; label: string; active: boolean }
 interface Props {
-    students: { data: StudentRow[]; links: any[] };
+    students: { data: StudentRow[]; links: PaginationLink[] };
     filters:  { search: string };
 }
 
@@ -17,7 +18,7 @@ export default function EnrollmentIndex({ students, filters }: Props) {
 
     function applySearch(e: FormEvent) {
         e.preventDefault();
-        router.get(route('admin.enrollments.index'), { search }, { preserveState: false });
+        router.get('/admin/enrollments', { search }, { preserveState: false });
     }
 
     return (
@@ -81,7 +82,7 @@ export default function EnrollmentIndex({ students, filters }: Props) {
                                     </span>
                                 </td>
                                 <td className="px-4 py-3 text-center">
-                                    <Link href={route('admin.enrollments.show', s.id)}
+                                    <Link href={`/admin/enrollments/${s.id}`}
                                         className="rounded-lg bg-indigo-600 px-4 py-1.5 text-xs font-semibold text-white hover:bg-indigo-700 transition">
                                         Manage →
                                     </Link>

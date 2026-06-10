@@ -24,11 +24,11 @@ interface Props {
 }
 
 export default function AttendanceReport({ courses, course, report, filters }: Props) {
-    const [courseId, setCourseId] = useState(filters.course_id ?? '');
+    const [courseId, setCourseId] = useState<string | number>(filters.course_id ?? '');
 
     function apply(e: FormEvent) {
         e.preventDefault();
-        router.get(route('admin.attendance.report'), { course_id: courseId }, { preserveState: false });
+        router.get('/admin/attendance/report', { course_id: courseId }, { preserveState: false });
     }
 
     function pctColor(pct: number) {
@@ -46,7 +46,7 @@ export default function AttendanceReport({ courses, course, report, filters }: P
                     <h1 className="text-2xl font-bold text-gray-900">Attendance Report</h1>
                     <p className="text-sm text-gray-500 mt-1">Per-student attendance summary by course</p>
                 </div>
-                <Link href={route('admin.attendance.index')}
+                <Link href="/admin/attendance"
                     className="inline-flex items-center gap-2 rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 transition">
                     ← Mark Attendance
                 </Link>
@@ -59,7 +59,7 @@ export default function AttendanceReport({ courses, course, report, filters }: P
                     <label className="block text-xs font-medium text-gray-600 mb-1">Course</label>
                     <select id="report_course_id"
                         value={courseId}
-                        onChange={e => setCourseId(e.target.value as any)}
+                        onChange={e => setCourseId(e.target.value)}
                         className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm shadow-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 outline-none">
                         <option value="">— Select course —</option>
                         {courses.map(c => (

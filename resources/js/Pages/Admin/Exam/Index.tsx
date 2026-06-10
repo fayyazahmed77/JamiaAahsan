@@ -11,9 +11,10 @@ interface Exam {
     is_published: boolean; results_count: number;
     course: { name: string; code: string };
 }
+interface PaginationLink { url: string | null; label: string; active: boolean }
 interface Props {
     courses: Course[];
-    exams:   { data: Exam[]; links: any[] };
+    exams:   { data: Exam[]; links: PaginationLink[] };
     filters: { course_id?: number };
 }
 
@@ -31,7 +32,7 @@ export default function ExamIndex({ courses, exams, filters }: Props) {
     // ── Filter ───────────────────────────────────────────────────────────────
     function applyFilter(e: FormEvent) {
         e.preventDefault();
-        router.get(route('admin.exams.index'), { course_id: courseFilter }, { preserveState: false });
+        router.get('/admin/exams', { course_id: courseFilter }, { preserveState: false });
     }
 
     // ── Create form ──────────────────────────────────────────────────────────
@@ -51,22 +52,28 @@ export default function ExamIndex({ courses, exams, filters }: Props) {
 
     function submit(e: FormEvent) {
         e.preventDefault();
-        post(route('admin.exams.store'), {
+        post('/admin/exams', {
             onSuccess: () => { reset(); setShowForm(false); },
         });
     }
 
     function togglePublish(exam: Exam) {
-        router.put(route('admin.exams.update', exam.id), {
-            ...exam,
+        router.put(`/admin/exams/${exam.id}`, {
+            title:        exam.title,
+            type:         exam.type,
+            exam_date:    exam.exam_date,
+            start_time:   exam.start_time ?? '',
+            end_time:     exam.end_time ?? '',
+            venue:        exam.venue ?? '',
+            total_marks:  exam.total_marks,
+            passing_marks: exam.passing_marks,
             is_published: !exam.is_published,
-            course_id: undefined,
-        } as any, { preserveScroll: true });
+        }, { preserveScroll: true });
     }
 
     function destroy(exam: Exam) {
         if (!confirm(`Delete "${exam.title}"? This cannot be undone.`)) return;
-        router.delete(route('admin.exams.destroy', exam.id));
+        router.delete(`/admin/exams/${exam.id}`);
     }
 
     return (
@@ -241,7 +248,7 @@ export default function ExamIndex({ courses, exams, filters }: Props) {
                                     {exam.total_marks} (pass: {exam.passing_marks})
                                 </td>
                                 <td className="px-4 py-3 text-center text-sm">
-                                    <Link href={route('admin.exams.results', exam.id)}
+                                    <Link href={`/admin/exams/${exam.id}/results`}
                                         className="inline-flex items-center gap-1 rounded-lg bg-sky-50 border border-sky-200 px-3 py-1 text-xs font-medium text-sky-700 hover:bg-sky-100 transition">
                                         📝 {exam.results_count} entered
                                     </Link>

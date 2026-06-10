@@ -7,6 +7,7 @@ use App\Models\HifzEnrollment;
 use App\Models\HifzSession;
 use App\Models\Student;
 use App\Models\User;
+use App\Services\HifzService;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Inertia\Inertia;
@@ -14,6 +15,8 @@ use Inertia\Response;
 
 class AdminHifzController extends Controller
 {
+    public function __construct(private readonly HifzService $hifzService) {}
+
     // ── List all Hifz enrollments ─────────────────────────────────────────
     public function index(Request $request): Response
     {
@@ -57,7 +60,7 @@ class AdminHifzController extends Controller
     // ── Show sessions for one student ─────────────────────────────────────
     public function show(int $studentId): Response
     {
-        $student = Student::findOrFail($studentId);
+        $student    = Student::findOrFail($studentId);
         $enrollment = HifzEnrollment::where('student_id', $studentId)
             ->with('teacher')->first();
 
@@ -113,23 +116,7 @@ class AdminHifzController extends Controller
             'mistakes_count'    => ['nullable', 'integer', 'min:0'],
         ]);
 
-        HifzSession::create([
-            'student_id'      => $studentId,
-            'teacher_id'      => $validated['teacher_id'],
-            'session_date'    => $validated['session_date'],
-            'sabqi_from'      => $validated['sabqi_from'],
-            'sabqi_to'        => $validated['sabqi_to'],
-            'sabqi_pages'     => $validated['sabqi_pages'],
-            'sabqi_quality'   => $validated['sabqi_quality'],
-            'manzil_from'     => $validated['manzil_from'],
-            'manzil_to'       => $validated['manzil_to'],
-            'manzil_quality'  => $validated['manzil_quality'],
-            'new_lesson_from' => $validated['new_lesson_from'],
-            'new_lesson_to'   => $validated['new_lesson_to'],
-            'new_lesson_pages'=> $validated['new_lesson_pages'],
-            'teacher_notes'   => $validated['teacher_notes'],
-            'mistakes_count'  => $validated['mistakes_count'],
-        ]);
+        $this->hifzService->recordSession($studentId, $validated);
 
         return redirect()->back()->with('success', 'Hifz session recorded successfully.');
     }
@@ -148,10 +135,7 @@ class AdminHifzController extends Controller
             'notes'                  => ['nullable', 'string', 'max:1000'],
         ]);
 
-        HifzEnrollment::updateOrCreate(
-            ['student_id' => $studentId],
-            array_merge($validated, ['start_date' => now()->toDateString()])
-        );
+        $this->hifzService->updateEnrollment($studentId, $validated);
 
         return redirect()->back()->with('success', 'Hifz enrollment updated successfully.');
     }

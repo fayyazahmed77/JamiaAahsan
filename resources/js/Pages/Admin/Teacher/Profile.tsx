@@ -23,7 +23,7 @@ export default function TeacherProfile({ teacher, stats, courses }: Props) {
 
             {/* Back */}
             <div className="mb-4">
-                <Link href={route('admin.teachers.index')}
+                <Link href="/admin/teachers"
                     className="text-sm text-gray-400 hover:text-gray-700 transition">
                     ← Teachers
                 </Link>
@@ -121,7 +121,7 @@ export default function TeacherProfile({ teacher, stats, courses }: Props) {
                                             </span>
                                         </td>
                                         <td className="px-4 py-3 text-center">
-                                            <Link href={route('admin.assignments.grading') + `?course_id=${c.id}`}
+                                            <Link href={`/admin/assignments/grading?course_id=${c.id}`}
                                                 className="rounded-md border border-indigo-200 bg-indigo-50 px-3 py-1 text-xs font-medium text-indigo-700 hover:bg-indigo-100 transition">
                                                 Grade →
                                             </Link>

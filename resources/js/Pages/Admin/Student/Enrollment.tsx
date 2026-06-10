@@ -38,7 +38,7 @@ export default function StudentEnrollment({ student, enrollments, available_cour
     function enroll() {
         if (selected.length === 0) return;
         setSaving(true);
-        router.post(route('admin.enrollments.enroll', student.id), { course_ids: selected }, {
+        router.post(`/admin/enrollments/${student.id}/enroll`, { course_ids: selected }, {
             onSuccess: () => {
                 setSelected([]);
                 setFlash(`${selected.length} course(s) enrolled!`);
@@ -51,7 +51,7 @@ export default function StudentEnrollment({ student, enrollments, available_cour
 
     function drop(enrollmentId: number, courseName: string) {
         if (!confirm(`Drop "${courseName}" for ${student.name}? This will remove their enrollment.`)) return;
-        router.delete(route('admin.enrollments.drop', enrollmentId), { preserveScroll: true });
+        router.delete(`/admin/enrollments/${enrollmentId}/drop`, { preserveScroll: true });
     }
 
     return (
@@ -61,7 +61,7 @@ export default function StudentEnrollment({ student, enrollments, available_cour
             {/* Header */}
             <div className="mb-6 flex items-start justify-between gap-4 flex-wrap">
                 <div>
-                    <Link href={route('admin.enrollments.index')}
+                    <Link href="/admin/enrollments"
                         className="text-sm text-gray-400 hover:text-gray-700 transition mb-1 inline-block">
                         ← All Students
                     </Link>
