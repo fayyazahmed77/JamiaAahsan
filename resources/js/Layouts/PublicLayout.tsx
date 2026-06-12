@@ -43,6 +43,32 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
     useEffect(() => {
         document.documentElement.dir = dir || 'ltr';
         document.documentElement.lang = locale || 'en';
+        
+        // Force light mode on public pages
+        const html = document.documentElement;
+        const hadDark = html.classList.contains('dark');
+        html.classList.remove('dark');
+        html.classList.add('light');
+        html.style.colorScheme = 'light';
+
+        const observer = new MutationObserver(() => {
+            if (html.classList.contains('dark')) {
+                html.classList.remove('dark');
+                html.classList.add('light');
+                html.style.colorScheme = 'light';
+            }
+        });
+
+        observer.observe(html, { attributes: true, attributeFilter: ['class'] });
+
+        return () => {
+            observer.disconnect();
+            if (hadDark) {
+                html.classList.add('dark');
+                html.classList.remove('light');
+                html.style.colorScheme = 'dark';
+            }
+        };
     }, [locale, dir]);
 
     useEffect(() => {
@@ -135,11 +161,19 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
             setPlaybackSpeed
         }}>
             <div dir={dir} className="flex flex-col min-h-screen" style={{ background: 'var(--bg)', color: 'var(--text-primary)' }}>
+                {/* Skip to Main Content Link for Keyboard Accessibility */}
+                <a 
+                    href="#main-content" 
+                    className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-100 focus:px-4 focus:py-2 focus:bg-emerald-700 focus:text-white focus:font-semibold focus:rounded-md focus:shadow-lg focus:outline-none"
+                >
+                    Skip to main content
+                </a>
+
                 {/* Public Header Navbar */}
                 <Header />
 
                 {/* Page Content Shell */}
-                <main className="flex-grow" style={{ paddingBottom: currentTrack ? 96 : 0 }}>
+                <main id="main-content" className="flex-grow" style={{ paddingBottom: currentTrack ? 96 : 0 }}>
                     {children}
                 </main>
 

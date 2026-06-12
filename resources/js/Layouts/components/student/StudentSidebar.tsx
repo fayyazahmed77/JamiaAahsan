@@ -57,6 +57,7 @@ const Icons = {
     Notices:   () => <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>,
     Profile:   () => <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>,
     IdCard:    () => <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><rect x="2" y="5" width="20" height="14" rx="2"/><circle cx="8" cy="12" r="2"/><path d="M14 9h4M14 13h4"/></svg>,
+    Invoices:  () => <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="8" y1="10" x2="16" y2="10"/><line x1="8" y1="14" x2="13" y2="14"/></svg>,
     Admission: () => <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M22 10v6M2 10l10-5 10 5-10 5-10-5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>,
     Certificate:()=> <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg>,
     Settings:  () => <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>,
@@ -67,6 +68,7 @@ const Icons = {
 export function StudentSidebar({ open, isMobile, onClose, isRTL = false }: SidebarProps) {
     const page = usePage() as any;
     const student = page.props.student_auth ?? page.props.student ?? null;
+    const isEnrolled = !!(student?.program_id && student?.current_semester_id);
     const currentPath = typeof window !== 'undefined' ? window.location.pathname : '';
 
     const isActive = (path: string) => currentPath === path || currentPath.startsWith(path + '/');
@@ -151,31 +153,43 @@ export function StudentSidebar({ open, isMobile, onClose, isRTL = false }: Sideb
             <nav style={{ flex: 1, paddingBottom: 16 }}>
                 <NavLink href="/student/dashboard" icon={<Icons.Dashboard />} label="Dashboard" active={currentPath === '/student/dashboard'} />
 
-                <NavSection title="🎓 Academic Center">
-                    <NavLink href="/student/courses"    icon={<Icons.Courses />}    label="My Courses"    active={isActive('/student/courses')} />
-                    <NavLink href="/student/classes"    icon={<Icons.Classes />}    label="My Classes"    active={isActive('/student/classes')} />
-                    <NavLink href="/student/attendance" icon={<Icons.Attendance />} label="Attendance"    active={isActive('/student/attendance')} />
-                    <NavLink href="/student/assignments"icon={<Icons.Assignment />} label="Assignments"   active={isActive('/student/assignments')} />
-                    <NavLink href="/student/exams"      icon={<Icons.Exams />}      label="Exams"         active={isActive('/student/exams')} />
-                    <NavLink href="/student/results"    icon={<Icons.Results />}    label="Results"       active={isActive('/student/results')} />
-                </NavSection>
+                {isEnrolled && (
+                    <NavSection title="🎓 Academic Center">
+                        <NavLink href="/student/courses"    icon={<Icons.Courses />}    label="My Courses"    active={isActive('/student/courses')} />
+                        <NavLink href="/student/classes"    icon={<Icons.Classes />}    label="My Classes"    active={isActive('/student/classes')} />
+                        <NavLink href="/student/attendance" icon={<Icons.Attendance />} label="Attendance"    active={isActive('/student/attendance')} />
+                        <NavLink href="/student/assignments"icon={<Icons.Assignment />} label="Assignments"   active={isActive('/student/assignments')} />
+                        <NavLink href="/student/exams"      icon={<Icons.Exams />}      label="Exams"         active={isActive('/student/exams')} />
+                        <NavLink href="/student/results"    icon={<Icons.Results />}    label="Results"       active={isActive('/student/results')} />
+                    </NavSection>
+                )}
 
                 <NavSection title="🕌 Islamic Learning">
-                    <NavLink href="/student/hifz"       icon={<Icons.Hifz />}      label="Hifz Progress" active={isActive('/student/hifz')} />
-                    <NavLink href="/student/materials?category=book" icon={<Icons.Quran />} label="Quran Studies" active={false} />
+                    {isEnrolled && (
+                        <>
+                            <NavLink href="/student/hifz"       icon={<Icons.Hifz />}      label="Hifz Progress" active={isActive('/student/hifz')} />
+                            <NavLink href="/student/materials?category=book" icon={<Icons.Quran />} label="Quran Studies" active={false} />
+                        </>
+                    )}
                     <NavLink href="/student/materials"  icon={<Icons.Materials />}  label="Islamic Resources" active={isActive('/student/materials')} />
                 </NavSection>
 
                 <NavSection title="📚 Resources">
                     <NavLink href="/student/notices"    icon={<Icons.Notices />}   label="Notices"        active={isActive('/student/notices')} />
                 </NavSection>
-
-                <NavSection title="👤 My Account">
-                    <NavLink href="/student/profile"    icon={<Icons.Profile />}    label="My Profile"    active={isActive('/student/profile')} />
-                    <NavLink href="/student/my-id"      icon={<Icons.IdCard />}     label="Student ID"    active={isActive('/student/my-id')} />
-                    <NavLink href="/student/admission"  icon={<Icons.Admission />}  label="Admission"     active={isActive('/student/admission')} />
-                    <NavLink href="/student/certificates" icon={<Icons.Certificate />} label="Certificates" active={isActive('/student/certificates')} />
-                    <NavLink href="/student/settings"   icon={<Icons.Settings />}   label="Settings"      active={isActive('/student/settings')} />
+                <NavSection title="🕌 My Account">
+                    <NavLink href="/student/profile"    icon={<Icons.Profile />}    label={isRTL ? "میرا پروفائل" : "My Profile"}    active={isActive('/student/profile')} />
+                    {isEnrolled && (
+                        <>
+                            <NavLink href="/student/my-id"      icon={<Icons.IdCard />}     label={isRTL ? "طالب علم کارڈ" : "Student ID"}    active={isActive('/student/my-id')} />
+                            <NavLink href="/student/invoices"   icon={<Icons.Invoices />}   label={isRTL ? "فیسوں کا ریکارڈ" : "Fee Invoices"} active={isActive('/student/invoices')} />
+                        </>
+                    )}
+                    <NavLink href="/student/admission"  icon={<Icons.Admission />}  label={isRTL ? "داخلہ ٹریکر" : "Admission"}     active={isActive('/student/admission')} />
+                    {isEnrolled && (
+                        <NavLink href="/student/certificates" icon={<Icons.Certificate />} label={isRTL ? "سرٹیفکیٹ" : "Certificates"} active={isActive('/student/certificates')} />
+                    )}
+                    <NavLink href="/student/settings"   icon={<Icons.Settings />}   label={isRTL ? "سیٹنگز" : "Settings"}      active={isActive('/student/settings')} />
                 </NavSection>
 
                 <NavSection title="🎫 Help">

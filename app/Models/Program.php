@@ -35,6 +35,11 @@ class Program extends Model
         return $this->hasMany(Student::class);
     }
 
+    public function semesters()
+    {
+        return $this->hasMany(Semester::class);
+    }
+
     public function scopeActive($query)
     {
         return $query->where('is_active', true)->orderBy('sort_order');

@@ -33,6 +33,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'role_or_permission' => \Spatie\Permission\Middleware\RoleOrPermissionMiddleware::class,
             'lockout'            => \App\Http\Middleware\CheckAccountLockout::class,
             'student.active'     => \App\Http\Middleware\EnsureStudentIsActive::class,
+            'student.enrolled'   => \App\Http\Middleware\EnsureStudentHasActiveEnrollment::class,
         ]);
 
         // C2: Rate limiters are registered in AppServiceProvider::boot() — Facades

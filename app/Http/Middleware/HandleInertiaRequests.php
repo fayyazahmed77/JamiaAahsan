@@ -34,11 +34,15 @@ class HandleInertiaRequests extends Middleware
     {
         return array_merge(parent::share($request), [
             'auth' => [
-                'user'        => $request->user()
+                'user'        => ($request->user() && $request->user() instanceof \App\Models\User)
                     ? new UserResource($request->user()->load('userDetail.class'))
                     : null,
-                'permissions' => $request->user()?->getAllPermissions()->pluck('name') ?? [],
-                'roles'       => $request->user()?->getRoleNames() ?? [],
+                'permissions' => ($request->user() && $request->user() instanceof \App\Models\User)
+                    ? $request->user()->getAllPermissions()->pluck('name')
+                    : [],
+                'roles'       => ($request->user() && $request->user() instanceof \App\Models\User)
+                    ? $request->user()->getRoleNames()
+                    : [],
             ],
 
             // ── Student Portal Guard ────────────────────────────────────
@@ -58,6 +62,12 @@ class HandleInertiaRequests extends Middleware
                         'student_type'       => $student->student_type,
                         'current_year'       => $student->current_year,
                         'current_semester'   => $student->current_semester,
+                        'program_id'         => $student->program_id,
+                        'current_semester_id'=> $student->current_semester_id,
+                        'pending_profile_photo_url' => $student->pending_profile_photo
+                            ? asset('storage/' . $student->pending_profile_photo)
+                            : null,
+                        'photo_status'       => $student->photo_status,
                     ];
                 } catch (\Throwable $e) {
                     return null;
@@ -91,7 +101,7 @@ class HandleInertiaRequests extends Middleware
                 try {
                     $student = \Illuminate\Support\Facades\Auth::guard('student')->user();
                     if (!$student) return 0;
-                    return \App\Models\StudentNotification::where('student_id', $student->id)
+                    return \App\Models\StudentPortalNotification::where('student_id', $student->id)
                         ->where('is_read', false)->count();
                 } catch (\Throwable $e) {
                     return 0;
@@ -104,12 +114,14 @@ class HandleInertiaRequests extends Middleware
                 'timestamp' => microtime(true),
             ],
 
+            'site_settings' => fn () => Cache::remember('site_settings', now()->addHour(), fn () => \App\Models\Setting::pluck('value', 'key')->toArray()),
+
             'prayer_timings' => fn () => Cache::remember('prayer_timings', now()->addDay(), fn () => PrayerTiming::all()),
 
             'latest_news'    => fn () => LatestNews::where('status', true)
-                ->orderBy('created_at', 'desc')
-                ->take(10)
-                ->get(['id', 'text', 'link']),
+                 ->orderBy('created_at', 'desc')
+                 ->take(10)
+                 ->get(['id', 'text', 'link']),
 
             'locale' => session('locale', 'en'),
             'dir'    => session('locale', 'en') === 'ur' ? 'rtl' : 'ltr',

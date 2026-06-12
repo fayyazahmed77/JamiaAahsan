@@ -230,11 +230,11 @@ export default function CourseShow({ enrollment, course, assignments, attendance
                                                         </div>
                                                     </div>
                                                     <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                                                        <span style={{
-                                                            fontSize: '0.75rem', fontWeight: 700, padding: '4px 10px',
-                                                            borderRadius: 12, bg: subStyle.bg, color: subStyle.color,
-                                                            backgroundColor: subStyle.bg // ensure styles apply properly
-                                                        }}>
+                                                         <span style={{
+                                                             fontSize: '0.75rem', fontWeight: 700, padding: '4px 10px',
+                                                             borderRadius: 12, color: subStyle.color,
+                                                             backgroundColor: subStyle.bg // ensure styles apply properly
+                                                         }}>
                                                             {subStyle.label}
                                                         </span>
                                                         <Link

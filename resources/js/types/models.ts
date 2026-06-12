@@ -186,6 +186,7 @@ export interface Image {
     weight: number | null;
     parent_id: number | null;
     status: boolean;
+    category?: string | null;
     created_at: string;
     updated_at: string;
 }

@@ -47,6 +47,10 @@ class AppServiceProvider extends ServiceProvider
             \App\Listeners\SendAdmissionApprovedNotification::class
         );
         \Illuminate\Support\Facades\Event::listen(
+            \App\Events\AdmissionApproved::class,
+            \App\Listeners\CreateStudentAccount::class
+        );
+        \Illuminate\Support\Facades\Event::listen(
             \App\Events\AdmissionRejected::class,
             \App\Listeners\SendAdmissionRejectedNotification::class
         );

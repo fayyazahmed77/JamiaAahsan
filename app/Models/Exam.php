@@ -24,6 +24,7 @@ class Exam extends Model
         'passing_marks',
         'instructions',
         'is_published',
+        'status',
     ];
 
     protected $casts = [

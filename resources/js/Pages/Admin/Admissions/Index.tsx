@@ -243,6 +243,12 @@ export default function AdmissionsIndex({ admissions, classes, filters }: Props)
             >
                 Reset
             </Button>
+            <a
+                href="/admin/exports/admissions"
+                className="inline-flex items-center justify-center gap-1.5 h-10 rounded-lg bg-[#1e6b3e] px-4 text-sm font-semibold text-white hover:bg-[#154c2b] transition shadow-sm ml-auto"
+            >
+                <FileText size={16} /> Export (Excel)
+            </a>
         </form>
     );
 

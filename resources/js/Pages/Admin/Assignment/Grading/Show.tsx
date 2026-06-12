@@ -91,11 +91,22 @@ export default function GradingShow({ assignment, grade_sheet }: Props) {
                         {assignment.course_code} · {assignment.course_name} · Due {assignment.due_date} · Max: {assignment.max_marks} marks
                     </p>
                 </div>
-                {flash && (
-                    <span className="rounded-full bg-emerald-100 px-4 py-1.5 text-sm font-medium text-emerald-700 shrink-0">
-                        ✓ {flash}
-                    </span>
-                )}
+                <div className="flex items-center gap-3">
+                    {flash && (
+                        <span className="rounded-full bg-emerald-100 px-4 py-1.5 text-sm font-medium text-emerald-700 shrink-0">
+                            ✓ {flash}
+                        </span>
+                    )}
+                    <a
+                        href={`/admin/exports/assignments?assignment_id=${assignment.id}`}
+                        className="inline-flex items-center gap-1.5 rounded-lg bg-[#1e6b3e] px-4 py-2 text-sm font-semibold text-white hover:bg-[#154c2b] transition shadow-sm"
+                    >
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                        </svg>
+                        Export Grades (Excel)
+                    </a>
+                </div>
             </div>
 
             {/* Stats bar */}

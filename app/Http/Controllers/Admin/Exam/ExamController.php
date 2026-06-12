@@ -129,6 +129,7 @@ class ExamController extends Controller
                 'passing_marks' => $exam->passing_marks,
                 'course_name'   => $exam->course->name,
                 'course_code'   => $exam->course->code,
+                'status'        => $exam->status,
             ],
             'sheet' => $sheet,
         ]);
@@ -165,5 +166,19 @@ class ExamController extends Controller
         }
 
         return redirect()->back()->with('success', 'Results saved successfully.');
+    }
+
+    /**
+     * Update the status of the exam (results publishing status).
+     */
+    public function updateStatus(Request $request, Exam $exam): RedirectResponse
+    {
+        $data = $request->validate([
+            'status' => ['required', 'in:draft,review,published'],
+        ]);
+
+        $exam->update($data);
+
+        return redirect()->back()->with('success', 'Exam status updated to: ' . ucfirst($exam->status));
     }
 }

@@ -13,6 +13,8 @@ export interface StudentUser {
     profile_photo_url?: string | null;
     current_year: number;
     current_semester: number;
+    program_id?: number | null;
+    current_semester_id?: number | null;
     enrollment_date?: string;
     program?: string;
     program_ur?: string;

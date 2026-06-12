@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class StudentLoginHistory extends Model
 {
+    protected $table = 'student_login_history';
+
     public $timestamps = false;
 
     protected $fillable = [

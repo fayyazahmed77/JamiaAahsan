@@ -49,10 +49,51 @@ class DashboardController extends Controller
             ->take(5)
             ->get(['id', 'title', 'views', 'status', 'created_at']);
 
+        // ── Daily admissions and media upload stats for the interactive chart ──
+        $chartData = Cache::remember('admin_dashboard_chart_data', now()->addMinutes(15), function () {
+            $data = [];
+            for ($i = 89; $i >= 0; $i--) {
+                $date = now()->subDays($i)->toDateString();
+                $data[$date] = [
+                    'date' => $date,
+                    'admissions' => 0,
+                    'media_uploads' => 0,
+                ];
+            }
+
+            // Query Admissions
+            $admissions = UserDetail::selectRaw('DATE(created_at) as date, COUNT(*) as count')
+                ->where('created_at', '>=', now()->subDays(90))
+                ->groupBy('date')
+                ->get()
+                ->pluck('count', 'date');
+
+            // Query Audio/Video uploads
+            $audios = Audio::selectRaw('DATE(created_at) as date, COUNT(*) as count')
+                ->where('created_at', '>=', now()->subDays(90))
+                ->groupBy('date')
+                ->get()
+                ->pluck('count', 'date');
+
+            $videos = Video::selectRaw('DATE(created_at) as date, COUNT(*) as count')
+                ->where('created_at', '>=', now()->subDays(90))
+                ->groupBy('date')
+                ->get()
+                ->pluck('count', 'date');
+
+            foreach ($data as $date => &$row) {
+                $row['admissions'] = (int)$admissions->get($date, 0);
+                $row['media_uploads'] = (int)($audios->get($date, 0) + $videos->get($date, 0));
+            }
+
+            return array_values($data);
+        });
+
         return Inertia::render('Admin/Dashboard/Index', [
             'stats'           => $stats,
             'recent_feedback' => $recentFeedback,
             'latest_audio'    => $latestAudio,
+            'chart_data'      => $chartData,
         ]);
     }
 }

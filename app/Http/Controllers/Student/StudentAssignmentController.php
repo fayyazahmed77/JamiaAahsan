@@ -141,6 +141,23 @@ class StudentAssignmentController extends Controller
         ]);
 
         $file = $request->file('file');
+
+        // Scan binary file signatures to confirm file type matches extension
+        $finfo = new \finfo(FILEINFO_MIME_TYPE);
+        $realMime = $finfo->file($file->getPathname());
+        $allowedMimes = [
+            'application/pdf',
+            'application/zip',
+            'application/x-zip-compressed',
+            'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+            'image/jpeg',
+            'image/png',
+            'image/webp',
+        ];
+        if (!in_array($realMime, $allowedMimes)) {
+            return back()->withErrors(['file' => 'The uploaded file signature header is invalid or insecure. Only PDFs, DOCX, ZIPs, and images are permitted.']);
+        }
+
         $fileName = $file->getClientOriginalName();
         $fileExt = strtolower($file->getClientOriginalExtension());
         

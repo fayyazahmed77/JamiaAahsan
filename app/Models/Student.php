@@ -17,6 +17,7 @@ class Student extends Authenticatable
         'program_id',
         'batch_id',
         'class_id',
+        'current_semester_id',
         'name',
         'email',
         'password',
@@ -24,6 +25,8 @@ class Student extends Authenticatable
         'date_of_birth',
         'gender',
         'profile_photo',
+        'pending_profile_photo',
+        'photo_status',
         'current_year',
         'current_semester',
         'student_type',
@@ -50,6 +53,7 @@ class Student extends Authenticatable
             'last_login_at'     => 'datetime',
             'current_year'      => 'integer',
             'current_semester'  => 'integer',
+            'current_semester_id'=> 'integer',
         ];
     }
 
@@ -72,6 +76,16 @@ class Student extends Authenticatable
     {
         return $this->profile_photo
             ? asset('storage/' . $this->profile_photo)
+            : null;
+    }
+
+    /**
+     * Full URL to the pending profile photo.
+     */
+    public function getPendingProfilePhotoUrlAttribute(): ?string
+    {
+        return $this->pending_profile_photo
+            ? asset('storage/' . $this->pending_profile_photo)
             : null;
     }
 
@@ -116,6 +130,16 @@ class Student extends Authenticatable
     public function klass()
     {
         return $this->belongsTo(Klass::class, 'class_id');
+    }
+
+    public function currentSemester()
+    {
+        return $this->belongsTo(Semester::class, 'current_semester_id');
+    }
+
+    public function enrolledSemesters()
+    {
+        return $this->hasMany(StudentSemester::class);
     }
 
     public function profile()
@@ -186,6 +210,16 @@ class Student extends Authenticatable
     public function hifzSessions()
     {
         return $this->hasMany(HifzSession::class)->latest();
+    }
+
+    public function supportTickets()
+    {
+        return $this->hasMany(SupportTicket::class)->latest();
+    }
+
+    public function invoices()
+    {
+        return $this->hasMany(StudentInvoice::class)->latest();
     }
 
     // ─── Scopes ────────────────────────────────────────────────────────

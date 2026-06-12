@@ -13,8 +13,12 @@ class ClassRoom extends Model
 
     protected $fillable = [
         'name',
+        'room_number',
+        'building_name',
+        'floor_name',
         'capacity',
-        'type',
+        'room_type',
+        'features',
         'location',
         'is_active',
     ];
@@ -22,6 +26,7 @@ class ClassRoom extends Model
     protected $casts = [
         'is_active' => 'boolean',
         'capacity' => 'integer',
+        'features' => 'array',
     ];
 
     public function schedules()

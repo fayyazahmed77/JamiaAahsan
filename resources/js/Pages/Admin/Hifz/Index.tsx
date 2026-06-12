@@ -145,6 +145,19 @@ export default function HifzIndex({ enrollments, filters }: Props) {
                             Clear
                         </button>
                     )}
+                    <a
+                        href="/admin/exports/hifz/excel"
+                        style={{
+                            padding: '9px 16px', background: '#1e6b3e', color: 'white', textDecoration: 'none',
+                            borderRadius: 8, fontWeight: 700, fontSize: '0.875rem', display: 'inline-flex', alignItems: 'center', gap: 6,
+                            border: 'none', cursor: 'pointer', boxShadow: '0 2px 4px rgba(0,0,0,0.1)', marginLeft: 'auto'
+                        }}
+                    >
+                        <svg style={{ width: 16, height: 16 }} fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+                        </svg>
+                        Export Excel
+                    </a>
                 </div>
 
                 {/* Table */}
@@ -212,17 +225,31 @@ export default function HifzIndex({ enrollments, filters }: Props) {
                                                 <td style={{ padding: '14px 16px', color: 'var(--text-secondary)', fontWeight: 600 }}>
                                                     {e.session_count}
                                                 </td>
-                                                <td style={{ padding: '14px 16px' }}>
+                                                <td style={{ padding: '14px 16px', display: 'flex', gap: 8, alignItems: 'center' }}>
                                                     <Link
                                                         href={`/admin/hifz/${e.student_id}`}
                                                         style={{
-                                                            padding: '6px 14px', background: '#1e6b3e', color: 'white',
+                                                            padding: '6px 12px', background: '#1e6b3e', color: 'white',
                                                             borderRadius: 6, textDecoration: 'none', fontSize: '0.8rem', fontWeight: 700,
                                                             whiteSpace: 'nowrap',
                                                         }}
                                                     >
-                                                        Manage →
+                                                        Manage
                                                     </Link>
+                                                    <a
+                                                        href={`/admin/exports/hifz/${e.student_id}`}
+                                                        style={{
+                                                            padding: '6px 12px', background: 'var(--surface-3)', color: 'var(--text-primary)',
+                                                            borderRadius: 6, textDecoration: 'none', fontSize: '0.8rem', fontWeight: 700,
+                                                            border: '1px solid var(--border)', display: 'inline-flex', alignItems: 'center', gap: 4,
+                                                            whiteSpace: 'nowrap',
+                                                        }}
+                                                    >
+                                                        <svg style={{ width: 12, height: 12 }} fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+                                                        </svg>
+                                                        PDF
+                                                     </a>
                                                 </td>
                                             </motion.tr>
                                         );

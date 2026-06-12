@@ -148,10 +148,26 @@ export default function HifzShow({ student, enrollment, sessions, teachers }: Pr
             <Head title={`Hifz — ${student.name}`} />
 
             <div style={{ maxWidth: 960, margin: '0 auto', display: 'flex', flexDirection: 'column', gap: 24 }}>
-                {/* Back */}
-                <Link href="/admin/hifz" style={{ color: 'var(--text-muted)', fontSize: '0.8125rem', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 6 }}>
-                    ← Back to Hifz List
-                </Link>
+                {/* Back & Export */}
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <Link href="/admin/hifz" style={{ color: 'var(--text-muted)', fontSize: '0.8125rem', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 6 }}>
+                        ← Back to Hifz List
+                    </Link>
+                    <a
+                        href={`/admin/exports/hifz/${student.id}`}
+                        style={{
+                            display: 'inline-flex', alignItems: 'center', gap: 6, padding: '8px 16px',
+                            background: '#1e6b3e', color: 'white', border: 'none', borderRadius: 8,
+                            fontWeight: 700, cursor: 'pointer', fontSize: '0.8125rem', textDecoration: 'none',
+                            boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+                        }}
+                    >
+                        <svg style={{ width: 14, height: 14 }} fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+                        </svg>
+                        Download Progress Card (PDF)
+                    </a>
+                </div>
 
                 {/* Student Header */}
                 <motion.div

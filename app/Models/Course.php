@@ -11,6 +11,7 @@ class Course extends Model
 
     protected $fillable = [
         'program_id',
+        'semester_id',
         'name',
         'name_ur',
         'code',
@@ -28,6 +29,7 @@ class Course extends Model
         'is_active' => 'boolean',
         'year' => 'integer',
         'semester' => 'integer',
+        'semester_id' => 'integer',
         'credit_hours' => 'integer',
         'sort_order' => 'integer',
     ];
@@ -37,9 +39,36 @@ class Course extends Model
         return $this->belongsTo(Program::class);
     }
 
+    /** Relationship to the Semester model (renamed to avoid collision with the 'semester' int column). */
+    public function semesterModel()
+    {
+        return $this->belongsTo(Semester::class, 'semester_id');
+    }
+
+    /** Alias kept for backward compatibility. */
+    public function semester()
+    {
+        return $this->belongsTo(Semester::class, 'semester_id');
+    }
+
     public function teacher()
     {
         return $this->belongsTo(Teacher::class);
+    }
+
+    public function books()
+    {
+        return $this->belongsToMany(Book::class, 'course_book');
+    }
+
+    public function timetableSlots()
+    {
+        return $this->hasMany(TimetableSlot::class);
+    }
+
+    public function studyResources()
+    {
+        return $this->hasMany(StudyResource::class);
     }
 
     public function enrollments()

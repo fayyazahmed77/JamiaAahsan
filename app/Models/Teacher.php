@@ -40,9 +40,22 @@ class Teacher extends Model
         return $this->hasMany(Course::class);
     }
 
+    public function timetableSlots(): HasMany
+    {
+        return $this->hasMany(TimetableSlot::class);
+    }
+
     /** D7: Assignments created by this teacher. */
     public function assignments(): HasMany
     {
         return $this->hasMany(Assignment::class);
+    }
+
+    /**
+     * Scope a query to only include active teachers.
+     */
+    public function scopeActive($query)
+    {
+        return $query->where('status', true);
     }
 }

@@ -15,6 +15,9 @@ use App\Http\Controllers\Public\DonationController;
 use App\Http\Controllers\Public\NewsController;
 use App\Http\Controllers\Public\DownloadsController;
 use App\Http\Controllers\Public\ContactController;
+use App\Http\Controllers\Public\SearchController;
+use App\Http\Controllers\Public\GalleryController;
+use App\Http\Controllers\Public\CertificateVerifyController;
 
 // Import all Controllers
 use App\Http\Controllers\Admin\DashboardController;
@@ -45,6 +48,7 @@ use App\Http\Controllers\Admin\Attendance\AttendanceController;
 use App\Http\Controllers\Admin\Assignment\AssignmentGradingController;
 use App\Http\Controllers\Admin\Exam\ExamController;
 use App\Http\Controllers\Admin\Student\StudentEnrollmentController;
+use App\Http\Controllers\Admin\ExportController;
 
 // ── Public Routes ─────────────────────────────────────────────────────────────
 Route::get('/', [HomeController::class, 'index'])->name('public.home');
@@ -85,6 +89,11 @@ Route::get('/contact', [ContactController::class, 'index'])->name('public.contac
 Route::post('/contact', [ContactController::class, 'store'])
     ->middleware('throttle:public-forms')
     ->name('public.contact.store');
+
+Route::get('/search', [SearchController::class, 'index'])->name('public.search');
+Route::get('/api/search', [SearchController::class, 'instant'])->name('public.search.api');
+Route::get('/gallery', [GalleryController::class, 'index'])->name('public.gallery');
+Route::get('/verify/{code}', [CertificateVerifyController::class, 'show'])->name('certificate.verify');
 
 Route::get('/lang/{locale}', function (string $locale) {
     if (in_array($locale, ['en', 'ur'])) {
@@ -210,6 +219,35 @@ Route::prefix('admin')
             Route::get('classes/{class}/sessions/{session}/edit', [ClassSessionController::class, 'edit'])->name('classes.sessions.edit')->middleware('permission:edit classes');
             Route::put('classes/{class}/sessions/{session}', [ClassSessionController::class, 'update'])->name('classes.sessions.update')->middleware('permission:edit classes');
             Route::delete('classes/{class}/sessions/{session}', [ClassSessionController::class, 'destroy'])->name('classes.sessions.destroy')->middleware('permission:delete classes');
+
+            // Semesters CRUD Routes
+            Route::get('semesters', [\App\Http\Controllers\Admin\Semester\SemesterController::class, 'index'])->name('semesters.index');
+            Route::post('semesters', [\App\Http\Controllers\Admin\Semester\SemesterController::class, 'store'])->name('semesters.store')->middleware('permission:create classes');
+            Route::put('semesters/{semester}', [\App\Http\Controllers\Admin\Semester\SemesterController::class, 'update'])->name('semesters.update')->middleware('permission:edit classes');
+            Route::delete('semesters/{semester}', [\App\Http\Controllers\Admin\Semester\SemesterController::class, 'destroy'])->name('semesters.destroy')->middleware('permission:delete classes');
+
+            // Courses CRUD Routes
+            Route::get('courses', [\App\Http\Controllers\Admin\Course\CourseController::class, 'index'])->name('courses.index');
+            Route::post('courses', [\App\Http\Controllers\Admin\Course\CourseController::class, 'store'])->name('courses.store')->middleware('permission:create classes');
+            Route::put('courses/{course}', [\App\Http\Controllers\Admin\Course\CourseController::class, 'update'])->name('courses.update')->middleware('permission:edit classes');
+            Route::delete('courses/{course}', [\App\Http\Controllers\Admin\Course\CourseController::class, 'destroy'])->name('courses.destroy')->middleware('permission:delete classes');
+
+            // Timetable Scheduler Routes
+            Route::get('timetable', [\App\Http\Controllers\Admin\Timetable\TimetableController::class, 'index'])->name('timetable.index');
+            Route::post('timetable', [\App\Http\Controllers\Admin\Timetable\TimetableController::class, 'store'])->name('timetable.store')->middleware('permission:create classes');
+            Route::put('timetable/{slot}', [\App\Http\Controllers\Admin\Timetable\TimetableController::class, 'update'])->name('timetable.update')->middleware('permission:edit classes');
+            Route::delete('timetable/{slot}', [\App\Http\Controllers\Admin\Timetable\TimetableController::class, 'destroy'])->name('timetable.destroy')->middleware('permission:delete classes');
+
+            // Course Content / Study Resource Routes
+            Route::post('courses/{course}/resources', [\App\Http\Controllers\Admin\Course\CourseContentController::class, 'storeResource'])->name('courses.resources.store')->middleware('permission:edit classes');
+            Route::delete('courses/resources/{resource}', [\App\Http\Controllers\Admin\Course\CourseContentController::class, 'destroyResource'])->name('courses.resources.destroy')->middleware('permission:edit classes');
+
+            // Course Assignment Routes
+            Route::post('courses/{course}/assignments', [\App\Http\Controllers\Admin\Course\CourseContentController::class, 'storeAssignment'])->name('courses.assignments.store')->middleware('permission:edit classes');
+            Route::delete('courses/assignments/{assignment}', [\App\Http\Controllers\Admin\Course\CourseContentController::class, 'destroyAssignment'])->name('courses.assignments.destroy')->middleware('permission:edit classes');
+
+            // Class Rooms CRUD
+            Route::resource('classrooms', \App\Http\Controllers\Admin\Klass\ClassRoomController::class)->only(['index', 'store', 'update', 'destroy']);
         });
 
         Route::middleware('permission:view teachers')->group(function () {
@@ -261,6 +299,37 @@ Route::prefix('admin')
             Route::delete('qa/questions/{question}', [QuestionAnswerController::class, 'destroy'])->name('questions.destroy')->middleware('permission:delete qa');
         });
 
+        // ── Notice Board & Announcements ───────────────
+        Route::get('announcements', [\App\Http\Controllers\Admin\Announcement\AnnouncementController::class, 'index'])->name('announcements.index');
+        Route::post('announcements', [\App\Http\Controllers\Admin\Announcement\AnnouncementController::class, 'store'])->name('announcements.store');
+        Route::put('announcements/{announcement}', [\App\Http\Controllers\Admin\Announcement\AnnouncementController::class, 'update'])->name('announcements.update');
+        Route::delete('announcements/{announcement}', [\App\Http\Controllers\Admin\Announcement\AnnouncementController::class, 'destroy'])->name('announcements.destroy');
+
+        // ── Certificates Module ───────────────────────
+        Route::get('certificates', [\App\Http\Controllers\Admin\Certificate\AdminCertificateController::class, 'index'])->name('certificates.index');
+        Route::post('certificates', [\App\Http\Controllers\Admin\Certificate\AdminCertificateController::class, 'store'])->name('certificates.store');
+        Route::delete('certificates/{certificate}', [\App\Http\Controllers\Admin\Certificate\AdminCertificateController::class, 'destroy'])->name('certificates.destroy');
+        Route::get('certificates/{certificate}/download', [\App\Http\Controllers\Admin\Certificate\AdminCertificateController::class, 'download'])->name('certificates.download');
+
+        // ── Export Service Routes ────────────────────
+        Route::middleware('permission:view students')->group(function () {
+            Route::get('exports/students', [ExportController::class, 'exportStudents'])->name('exports.students');
+            Route::get('exports/attendance', [ExportController::class, 'exportAttendance'])->name('exports.attendance');
+        });
+
+        Route::middleware('permission:view admissions')->group(function () {
+            Route::get('exports/admissions', [ExportController::class, 'exportAdmissions'])->name('exports.admissions');
+        });
+
+        Route::middleware('permission:view assignments')->group(function () {
+            Route::get('exports/assignments', [ExportController::class, 'exportAssignments'])->name('exports.assignments');
+        });
+
+        Route::middleware('role:Super Admin')->group(function () {
+            Route::get('exports/hifz/excel', [ExportController::class, 'exportHifzExcel'])->name('exports.hifz.excel');
+            Route::get('exports/hifz/{studentId}', [ExportController::class, 'exportHifzPdf'])->name('exports.hifz.pdf');
+        });
+
         // ── CMS Settings & Downloads ──────────────────
         Route::middleware('permission:view settings')->group(function () {
             Route::get('cms/settings', [SettingController::class, 'index'])->name('settings.index');
@@ -271,6 +340,12 @@ Route::prefix('admin')
             Route::post('departments', [\App\Http\Controllers\Admin\Department\DepartmentController::class, 'store'])->name('departments.store')->middleware('permission:create settings');
             Route::put('departments/{department}', [\App\Http\Controllers\Admin\Department\DepartmentController::class, 'update'])->name('departments.update')->middleware('permission:edit settings');
             Route::delete('departments/{department}', [\App\Http\Controllers\Admin\Department\DepartmentController::class, 'destroy'])->name('departments.destroy')->middleware('permission:delete settings');
+
+            // Programs CRUD (replacing / upgrading departments)
+            Route::get('programs', [\App\Http\Controllers\Admin\Program\ProgramController::class, 'index'])->name('programs.index');
+            Route::post('programs', [\App\Http\Controllers\Admin\Program\ProgramController::class, 'store'])->name('programs.store')->middleware('permission:create settings');
+            Route::put('programs/{program}', [\App\Http\Controllers\Admin\Program\ProgramController::class, 'update'])->name('programs.update')->middleware('permission:edit settings');
+            Route::delete('programs/{program}', [\App\Http\Controllers\Admin\Program\ProgramController::class, 'destroy'])->name('programs.destroy')->middleware('permission:delete settings');
         });
 
 
@@ -359,6 +434,7 @@ Route::prefix('admin')
             Route::get('exams/{exam}/results',        [ExamController::class, 'results'])->name('exams.results');
             Route::post('exams',                      [ExamController::class, 'store'])->name('exams.store')->middleware('permission:edit students');
             Route::put('exams/{exam}',                [ExamController::class, 'update'])->name('exams.update')->middleware('permission:edit students');
+            Route::patch('exams/{exam}/status',       [ExamController::class, 'updateStatus'])->name('exams.update-status')->middleware('permission:edit students');
             Route::delete('exams/{exam}',             [ExamController::class, 'destroy'])->name('exams.destroy')->middleware('permission:edit students');
             Route::post('exams/{exam}/results',       [ExamController::class, 'saveResults'])->name('exams.results.save')->middleware('permission:edit students');
         });
@@ -369,13 +445,25 @@ Route::prefix('admin')
             Route::get('enrollments/{student}',                   [StudentEnrollmentController::class, 'show'])->name('enrollments.show');
             Route::post('enrollments/{student}/enroll',           [StudentEnrollmentController::class, 'enroll'])->name('enrollments.enroll')->middleware('permission:edit students');
             Route::delete('enrollments/{enrollment}/drop',        [StudentEnrollmentController::class, 'drop'])->name('enrollments.drop')->middleware('permission:edit students');
-        });
-    });
 
-// ── Student authenticated Panel ──────────────────────────────────────────────────
-Route::prefix('student')
-    ->name('student.')
-    ->middleware(['auth', 'role:Student'])
-    ->group(function () {
-        Route::get('/dashboard', [\App\Http\Controllers\Student\DashboardController::class, 'index'])->name('dashboard');
+            // ID Card & Photo Approval Desk Routes
+            Route::get('id-cards', [\App\Http\Controllers\Admin\Student\AdminIdCardController::class, 'index'])->name('id-cards.index');
+            Route::post('id-cards/{student}/approve-photo', [\App\Http\Controllers\Admin\Student\AdminIdCardController::class, 'approvePhoto'])->name('id-cards.approve-photo');
+            Route::post('id-cards/{student}/reject-photo', [\App\Http\Controllers\Admin\Student\AdminIdCardController::class, 'rejectPhoto'])->name('id-cards.reject-photo');
+            Route::post('id-cards/{student}/issue', [\App\Http\Controllers\Admin\Student\AdminIdCardController::class, 'issueCard'])->name('id-cards.issue');
+        });
+
+        // ── Support Tickets Resolver ──────────────────────────────────────────
+        Route::middleware('permission:view students')->group(function () {
+            Route::get('support-tickets', [\App\Http\Controllers\Admin\Support\AdminSupportController::class, 'index'])->name('support-tickets.index');
+            Route::post('support-tickets/{id}/resolve', [\App\Http\Controllers\Admin\Support\AdminSupportController::class, 'resolve'])->name('support-tickets.resolve');
+        });
+
+        // ── Fee Invoices Management ────────────────────────────────────────────
+        Route::middleware('permission:view students')->group(function () {
+            Route::get('invoices', [\App\Http\Controllers\Admin\Finance\AdminInvoiceController::class, 'index'])->name('invoices.index');
+            Route::post('invoices', [\App\Http\Controllers\Admin\Finance\AdminInvoiceController::class, 'store'])->name('invoices.store');
+            Route::post('invoices/{id}/approve', [\App\Http\Controllers\Admin\Finance\AdminInvoiceController::class, 'approvePayment'])->name('invoices.approve');
+            Route::post('invoices/{id}/reject', [\App\Http\Controllers\Admin\Finance\AdminInvoiceController::class, 'rejectPayment'])->name('invoices.reject');
+        });
     });

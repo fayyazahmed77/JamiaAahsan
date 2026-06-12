@@ -11,7 +11,7 @@ class StudentDigitalIdController extends Controller
 {
     public function show(): Response
     {
-        $student = Auth::guard('student')->user()->load(['program', 'digitalId']);
+        $student = \App\Models\Student::with(['program', 'digitalId'])->findOrFail(Auth::guard('student')->id());
 
         return Inertia::render('Student/DigitalId/Show', [
             'student' => [
@@ -26,6 +26,8 @@ class StudentDigitalIdController extends Controller
                 'current_year'      => $student->current_year,
                 'current_semester'  => $student->current_semester,
                 'profile_photo_url' => $student->profile_photo_url,
+                'pending_profile_photo_url' => $student->pending_profile_photo_url,
+                'photo_status'       => $student->photo_status,
                 'enrollment_date'   => $student->enrollment_date?->format('M Y'),
                 'program'           => $student->program?->name,
                 'program_ur'        => $student->program?->name_ur,
@@ -43,7 +45,14 @@ class StudentDigitalIdController extends Controller
 
     public function download()
     {
-        // Phase 4: Generate PDF using DomPDF or Spatie/Browsershot
-        abort(404, 'PDF download will be available in Phase 4.');
+        $student = \App\Models\Student::with(['program', 'digitalId'])->findOrFail(Auth::guard('student')->id());
+        if (!$student->digitalId) {
+            abort(404, 'Digital ID card has not been issued yet.');
+        }
+
+        $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('pdf.digital_id', compact('student'))
+            ->setPaper([0, 0, 240, 380], 'landscape');
+
+        return $pdf->download('Digital_ID_' . $student->student_id_number . '.pdf');
     }
 }

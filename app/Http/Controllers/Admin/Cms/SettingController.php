@@ -31,19 +31,23 @@ class SettingController extends Controller
     public function update(Request $request): RedirectResponse
     {
         $rules = [
-            'site_name'        => 'nullable|string|max:255',
-            'site_name_urdu'   => 'nullable|string|max:255',
-            'contact_email'    => 'nullable|email|max:255',
-            'contact_phone'    => 'nullable|string|max:100',
-            'contact_address'  => 'nullable|string',
-            'social_facebook'  => 'nullable|url|max:255',
-            'social_youtube'   => 'nullable|url|max:255',
-            'social_twitter'   => 'nullable|url|max:255',
-            'seo_title'        => 'nullable|string|max:255',
-            'seo_description'  => 'nullable|string',
-            'seo_keywords'     => 'nullable|string',
-            'logo'             => 'nullable|image|max:2048',
-            'favicon'          => 'nullable|image|max:1024',
+            'site_name'              => 'nullable|string|max:255',
+            'site_name_urdu'         => 'nullable|string|max:255',
+            'contact_email'          => 'nullable|email|max:255',
+            'contact_phone'          => 'nullable|string|max:100',
+            'contact_address'        => 'nullable|string',
+            'social_facebook'        => 'nullable|url|max:255',
+            'social_youtube'         => 'nullable|url|max:255',
+            'social_twitter'         => 'nullable|url|max:255',
+            'seo_title'              => 'nullable|string|max:255',
+            'seo_description'        => 'nullable|string',
+            'seo_keywords'           => 'nullable|string',
+            'hero_tagline_en'        => 'nullable|string|max:500',
+            'hero_tagline_ur'        => 'nullable|string|max:500',
+            'announcement_ticker_en' => 'nullable|string|max:1000',
+            'announcement_ticker_ur' => 'nullable|string|max:1000',
+            'logo'                   => 'nullable|image|max:2048',
+            'favicon'                => 'nullable|image|max:1024',
         ];
 
         $validated = $request->validate($rules);
@@ -76,6 +80,9 @@ class SettingController extends Controller
                 );
             }
         }
+
+        // Clear settings cache
+        \Illuminate\Support\Facades\Cache::forget('site_settings');
 
         return redirect()->route('admin.settings.index')->with('success', 'Settings updated successfully.');
     }

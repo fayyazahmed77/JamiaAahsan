@@ -27,6 +27,10 @@ export default function SettingsIndex({ settings }: Props) {
         seo_title: settings.seo_title ?? '',
         seo_description: settings.seo_description ?? '',
         seo_keywords: settings.seo_keywords ?? '',
+        hero_tagline_en: settings.hero_tagline_en ?? '',
+        hero_tagline_ur: settings.hero_tagline_ur ?? '',
+        announcement_ticker_en: settings.announcement_ticker_en ?? '',
+        announcement_ticker_ur: settings.announcement_ticker_ur ?? '',
         logo: null as File | null,
         favicon: null as File | null,
         _method: 'PUT', // Route is PUT but we use multipart POST with method spoofing for uploads
@@ -101,6 +105,22 @@ export default function SettingsIndex({ settings }: Props) {
                                             />
                                         </div>
 
+                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                            <Input
+                                                label="Hero Tagline (English)"
+                                                value={data.hero_tagline_en}
+                                                onChange={(e) => setData('hero_tagline_en', e.target.value)}
+                                                error={errors.hero_tagline_en}
+                                            />
+                                            <Input
+                                                label="Hero Tagline (Urdu)"
+                                                value={data.hero_tagline_ur}
+                                                onChange={(e) => setData('hero_tagline_ur', e.target.value)}
+                                                error={errors.hero_tagline_ur}
+                                                className="font-urdu text-right"
+                                            />
+                                        </div>
+
                                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-end mt-2">
                                             {/* Logo Upload */}
                                             <div className="flex flex-col gap-2">
@@ -134,6 +154,27 @@ export default function SettingsIndex({ settings }: Props) {
                                                     </div>
                                                 )}
                                                 {errors.favicon && <span className="text-xs text-destructive">{errors.favicon}</span>}
+                                            </div>
+                                        </div>
+
+                                        <div className="flex flex-col gap-4 border-t pt-4 border-border">
+                                            <h4 className="font-semibold text-md" style={{ color: 'var(--text-primary)' }}>
+                                                Header Announcement Ticker
+                                            </h4>
+                                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                                <Input
+                                                    label="Announcement Ticker (English)"
+                                                    value={data.announcement_ticker_en}
+                                                    onChange={(e) => setData('announcement_ticker_en', e.target.value)}
+                                                    error={errors.announcement_ticker_en}
+                                                />
+                                                <Input
+                                                    label="Announcement Ticker (Urdu)"
+                                                    value={data.announcement_ticker_ur}
+                                                    onChange={(e) => setData('announcement_ticker_ur', e.target.value)}
+                                                    error={errors.announcement_ticker_ur}
+                                                    className="font-urdu text-right"
+                                                />
                                             </div>
                                         </div>
                                     </div>

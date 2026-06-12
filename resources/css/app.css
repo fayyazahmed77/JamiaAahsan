@@ -873,3 +873,37 @@
         min-height: calc(100vh - var(--topbar-height)) !important;
     }
 }
+
+/* Accessibility outline rings on focus-visible elements */
+*:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+}
+
+/* Urdu script line height adjustments to prevent tall glyph clipping */
+[dir="rtl"] body,
+[dir="rtl"] {
+    line-height: 1.85;
+    text-rendering: optimizeLegibility;
+}
+.hero-section {
+  height: 75vh;
+}
+
+@media (max-width: 1200px) {
+  .hero-section {
+    height: 95vh;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero-section {
+    height: 71vh;
+  }
+}
+
+@media (max-width: 576px) {
+  .hero-section {
+    height: 52vh;
+  }
+}

@@ -21,7 +21,20 @@ export default function ImageForm({ image, parent_images }: Props) {
 
     const isEdit = !!image;
 
-    const { data, setData, post, put, processing, errors } = useForm({
+    interface ImageFormFields {
+        title: string;
+        description: string;
+        btn_title: string;
+        btn_link: string;
+        weight: number;
+        parent_id: number | '';
+        status: boolean;
+        category: string;
+        image: File | null;
+        _method: 'PUT' | 'POST';
+    }
+
+    const { data, setData, post, put, processing, errors } = useForm<ImageFormFields>({
         title: image?.title ?? '',
         description: image?.description ?? '',
         btn_title: image?.btn_title ?? '',
@@ -29,7 +42,8 @@ export default function ImageForm({ image, parent_images }: Props) {
         weight: image?.weight ?? 0,
         parent_id: image?.parent_id ?? '',
         status: image?.status ?? true,
-        image: null as File | null,
+        category: image?.category ?? 'Other',
+        image: null,
         _method: isEdit ? 'PUT' : 'POST', // Handle Laravel file upload with PUT via method spoofing
     });
 
@@ -191,6 +205,24 @@ export default function ImageForm({ image, parent_images }: Props) {
                                         { value: '1', label: 'Active' },
                                         { value: '0', label: 'Inactive' },
                                     ]}
+                                />
+
+                                {/* Category */}
+                                <Select
+                                    label="Gallery Category"
+                                    value={data.category}
+                                    onChange={(e) => setData('category', e.target.value)}
+                                    options={[
+                                        { value: 'Annual Events', label: 'Annual Events' },
+                                        { value: 'Classroom Activities', label: 'Classroom Activities' },
+                                        { value: 'Campus Life', label: 'Campus Life' },
+                                        { value: 'Hifz Program', label: 'Hifz Program' },
+                                        { value: 'Graduations', label: 'Graduations' },
+                                        { value: 'Competitions', label: 'Competitions' },
+                                        { value: 'Guest Visits', label: 'Guest Visits' },
+                                        { value: 'Other', label: 'Other' },
+                                    ]}
+                                    error={errors.category}
                                 />
                             </div>
 

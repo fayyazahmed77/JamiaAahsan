@@ -7,6 +7,7 @@ interface ExamInfo {
     id: number; title: string; type_label: string; exam_date: string;
     total_marks: number; passing_marks: number;
     course_name: string; course_code: string;
+    status: 'draft' | 'review' | 'published';
 }
 interface SheetRow {
     student_id:     number;
@@ -41,6 +42,21 @@ export default function ExamResults({ exam, sheet }: Props) {
     const [edits, setEdits]   = useState<Edits>(init);
     const [saving, setSaving] = useState(false);
     const [flash, setFlash]   = useState('');
+    const [currentStatus, setCurrentStatus] = useState<ExamInfo['status']>(exam.status);
+    const [updatingStatus, setUpdatingStatus] = useState(false);
+
+    function updateStatus(newStatus: ExamInfo['status']) {
+        setUpdatingStatus(true);
+        router.patch(`/admin/exams/${exam.id}/status`, { status: newStatus }, {
+            onSuccess: () => {
+                setCurrentStatus(newStatus);
+                setFlash(`Status updated to ${newStatus}`);
+                setTimeout(() => setFlash(''), 3000);
+            },
+            onFinish: () => setUpdatingStatus(false),
+            preserveScroll: true
+        });
+    }
 
     function set(sid: number, field: 'marks' | 'remarks', val: string) {
         setEdits(p => ({ ...p, [sid]: { ...p[sid], [field]: val } }));
@@ -95,11 +111,44 @@ export default function ExamResults({ exam, sheet }: Props) {
                         · Total: {exam.total_marks} · Pass: {exam.passing_marks}
                     </p>
                 </div>
-                {flash && (
-                    <span className="rounded-full bg-emerald-100 px-4 py-1.5 text-sm font-medium text-emerald-700">
-                        ✓ {flash}
-                    </span>
-                )}
+                
+                <div className="flex items-center gap-3 flex-wrap">
+                    {flash && (
+                        <span className="rounded-full bg-emerald-100 px-4 py-1.5 text-sm font-medium text-emerald-700">
+                            ✓ {flash}
+                        </span>
+                    )}
+
+                    <div className="flex items-center gap-2 bg-stone-50 dark:bg-stone-850 p-1.5 rounded-lg border border-stone-200 dark:border-stone-800">
+                        <span className="text-[11px] font-bold text-stone-500 uppercase tracking-wider px-2">Results:</span>
+                        <div className="flex items-center gap-1 bg-stone-100 dark:bg-stone-900 p-0.5 rounded-md">
+                            {(['draft', 'review', 'published'] as const).map(s => {
+                                const active = currentStatus === s;
+                                const colors = {
+                                    draft: active ? 'bg-stone-500 text-white shadow-sm' : 'text-stone-600 dark:text-stone-400 hover:bg-stone-200 dark:hover:bg-stone-800',
+                                    review: active ? 'bg-amber-600 text-white shadow-sm' : 'text-amber-700 hover:bg-amber-100 dark:hover:bg-amber-800/50',
+                                    published: active ? 'bg-emerald-600 text-white shadow-sm' : 'text-emerald-700 hover:bg-emerald-100 dark:hover:bg-emerald-800/50',
+                                };
+                                const labels = {
+                                    draft: 'Draft',
+                                    review: 'Review',
+                                    published: 'Published',
+                                };
+                                return (
+                                    <button
+                                        key={s}
+                                        type="button"
+                                        disabled={updatingStatus}
+                                        onClick={() => updateStatus(s)}
+                                        className={`px-3 py-1 text-xs font-semibold rounded-md transition cursor-pointer disabled:opacity-50 ${colors[s]}`}
+                                    >
+                                        {labels[s]}
+                                    </button>
+                                );
+                            })}
+                        </div>
+                    </div>
+                </div>
             </div>
 
             {/* Stats */}

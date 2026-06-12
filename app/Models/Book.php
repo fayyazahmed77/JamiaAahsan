@@ -21,4 +21,9 @@ class Book extends Model
     {
         return $this->hasMany(ClassSession::class);
     }
+
+    public function courses()
+    {
+        return $this->belongsToMany(Course::class, 'course_book');
+    }
 }

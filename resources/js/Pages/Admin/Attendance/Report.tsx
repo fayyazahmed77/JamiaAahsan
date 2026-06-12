@@ -67,11 +67,20 @@ export default function AttendanceReport({ courses, course, report, filters }: P
                         ))}
                     </select>
                 </div>
-                <div className="flex items-end">
+                <div className="flex items-end gap-2">
                     <button type="submit"
                         className="rounded-lg bg-indigo-600 px-5 py-2 text-sm font-medium text-white hover:bg-indigo-700 transition">
                         Generate
                     </button>
+                    <a
+                        href={`/admin/exports/attendance${courseId ? `?course_id=${courseId}` : ''}`}
+                        className="inline-flex items-center gap-1.5 h-[38px] rounded-lg bg-[#1e6b3e] px-4 text-sm font-semibold text-white hover:bg-[#154c2b] transition shadow-sm"
+                    >
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                        </svg>
+                        Export (Excel)
+                    </a>
                 </div>
             </form>
 

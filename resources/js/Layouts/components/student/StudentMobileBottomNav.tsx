@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from '@inertiajs/react';
+import { Link, usePage } from '@inertiajs/react';
 
 const tabs = [
     { href: '/student/dashboard', label: 'Home',     icon: '🏠' },
@@ -11,6 +11,16 @@ const tabs = [
 
 export function StudentMobileBottomNav() {
     const currentPath = typeof window !== 'undefined' ? window.location.pathname : '';
+    const { props } = usePage() as any;
+    const student = props.student_auth ?? props.student ?? null;
+    const isEnrolled = !!(student?.program_id && student?.current_semester_id);
+
+    const activeTabs = tabs.filter(tab => {
+        if (!isEnrolled && ['/student/courses', '/student/classes', '/student/assignments'].includes(tab.href)) {
+            return false;
+        }
+        return true;
+    });
 
     return (
         <nav style={{
@@ -20,7 +30,7 @@ export function StudentMobileBottomNav() {
             display: 'flex', alignItems: 'center',
             zIndex: 40, boxShadow: '0 -4px 20px rgba(0,0,0,0.08)',
         }}>
-            {tabs.map(tab => {
+            {activeTabs.map(tab => {
                 const active = currentPath === tab.href || currentPath.startsWith(tab.href + '/');
                 return (
                     <Link

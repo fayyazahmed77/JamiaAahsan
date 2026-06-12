@@ -130,11 +130,11 @@ export default function HeroSlider() {
     return (
         <section style={{
             position: 'relative',
-            height: 667,
+           
             overflow: 'hidden',
             background: '#0a0f18',
             color: 'white'
-        }}>
+        }} className="hero-section">
             {slides.map((slide, index) => (
                 <div
                     key={index}

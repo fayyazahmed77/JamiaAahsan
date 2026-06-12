@@ -57,6 +57,7 @@ class ImageController extends Controller
             'weight'      => 'nullable|integer',
             'parent_id'   => 'nullable|exists:images,id',
             'status'      => 'required|boolean',
+            'category'    => 'nullable|string|max:50',
             'image'       => 'required|image|max:5120',
         ]);
 
@@ -87,6 +88,7 @@ class ImageController extends Controller
             'weight'      => 'nullable|integer',
             'parent_id'   => 'nullable|exists:images,id',
             'status'      => 'required|boolean',
+            'category'    => 'nullable|string|max:50',
             'image'       => 'nullable|image|max:5120',
         ]);
 

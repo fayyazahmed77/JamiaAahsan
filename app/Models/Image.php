@@ -22,6 +22,7 @@ class Image extends Model
         'weight',
         'parent_id',
         'status',
+        'category',
     ];
 
     protected $casts = [

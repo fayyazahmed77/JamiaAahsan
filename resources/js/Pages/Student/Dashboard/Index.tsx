@@ -1,5 +1,4 @@
-import React from 'react';
-import { Head } from '@inertiajs/react';
+import { Head, Link, usePage } from '@inertiajs/react';
 import { motion } from 'framer-motion';
 import StudentLayout from '@/Layouts/StudentLayout';
 import type {
@@ -44,6 +43,16 @@ interface HifzSummary {
     status: string;
 }
 
+interface DashboardAnnouncement {
+    id: number;
+    title: string;
+    title_ur: string | null;
+    content: string | null;
+    content_ur: string | null;
+    is_pinned: boolean;
+    created_at: string;
+}
+
 interface Props {
     student: StudentUser;
     islamic_content: IslamicContent;
@@ -56,6 +65,7 @@ interface Props {
     attendance: AttendanceSummary;
     upcoming_exams: UpcomingExam[];
     hifz: HifzSummary | null;
+    announcements: DashboardAnnouncement[];
 }
 
 // ─── Widget: Welcome Banner ────────────────────────────────────────────────
@@ -150,17 +160,40 @@ function IslamicInspiration({ islamic_content }: { islamic_content: IslamicConte
                         </span>
                     </div>
                     {islamic_content.verse.arabic_text && (
-                        <p style={{ fontSize: '1.125rem', lineHeight: 1.8, color: 'var(--text-primary)', textAlign: 'right', direction: 'rtl', marginBottom: 8 }}>
+                        <p style={{
+                            fontFamily: "'Amiri', 'Scheherazade New', serif",
+                            fontSize: '1.75rem',
+                            lineHeight: 1.8,
+                            color: 'var(--text-primary)',
+                            textAlign: 'right',
+                            direction: 'rtl',
+                            marginBottom: 12,
+                            fontWeight: 500
+                        }}>
                             {islamic_content.verse.arabic_text}
                         </p>
                     )}
-                    {islamic_content.verse.translation_en && (
-                        <p style={{ fontSize: '0.875rem', color: 'var(--text-secondary)', fontStyle: 'italic', margin: '0 0 4px' }}>
-                            "{islamic_content.verse.translation_en}"
+                    {islamic_content.verse.translation_ur ? (
+                        <p style={{
+                            fontSize: '0.95rem',
+                            lineHeight: 1.8,
+                            color: 'var(--text-secondary)',
+                            fontFamily: "'Noto Nastaliq Urdu', serif",
+                            textAlign: 'right',
+                            direction: 'rtl',
+                            margin: '0 0 8px'
+                        }}>
+                            "{islamic_content.verse.translation_ur}"
                         </p>
+                    ) : (
+                        islamic_content.verse.translation_en && (
+                            <p style={{ fontSize: '0.875rem', color: 'var(--text-secondary)', fontStyle: 'italic', margin: '0 0 8px' }}>
+                                "{islamic_content.verse.translation_en}"
+                            </p>
+                        )
                     )}
                     {islamic_content.verse.reference && (
-                        <p style={{ fontSize: '0.75rem', color: '#1e6b3e', fontWeight: 600, margin: 0 }}>
+                        <p style={{ fontSize: '0.75rem', color: '#1e6b3e', fontWeight: 600, margin: 0, textAlign: islamic_content.verse.translation_ur ? 'right' : 'left' }}>
                             — {islamic_content.verse.reference}
                         </p>
                     )}
@@ -176,13 +209,27 @@ function IslamicInspiration({ islamic_content }: { islamic_content: IslamicConte
                             Hadith of the Day
                         </span>
                     </div>
-                    {islamic_content.hadith.text_en && (
-                        <p style={{ fontSize: '0.875rem', color: 'var(--text-secondary)', fontStyle: 'italic', margin: '0 0 4px' }}>
-                            {islamic_content.hadith.text_en}
+                    {islamic_content.hadith.text_ur ? (
+                        <p style={{
+                            fontSize: '0.95rem',
+                            lineHeight: 1.8,
+                            color: 'var(--text-secondary)',
+                            fontFamily: "'Noto Nastaliq Urdu', serif",
+                            textAlign: 'right',
+                            direction: 'rtl',
+                            margin: '0 0 8px'
+                        }}>
+                            {islamic_content.hadith.text_ur}
                         </p>
+                    ) : (
+                        islamic_content.hadith.text_en && (
+                            <p style={{ fontSize: '0.875rem', color: 'var(--text-secondary)', fontStyle: 'italic', margin: '0 0 8px' }}>
+                                {islamic_content.hadith.text_en}
+                            </p>
+                        )
                     )}
                     {islamic_content.hadith.source && (
-                        <p style={{ fontSize: '0.75rem', color: '#1e6b3e', fontWeight: 600, margin: '4px 0 0' }}>
+                        <p style={{ fontSize: '0.75rem', color: '#1e6b3e', fontWeight: 600, margin: '4px 0 0', textAlign: islamic_content.hadith.text_ur ? 'right' : 'left' }}>
                             — {islamic_content.hadith.source}
                             {islamic_content.hadith.grade && <span style={{ fontWeight: 400, color: 'var(--text-muted)' }}> ({islamic_content.hadith.grade})</span>}
                         </p>
@@ -464,11 +511,106 @@ function UpcomingExams({ exams }: { exams: UpcomingExam[] }) {
     );
 }
 
+// ─── Widget: Notice Board ──────────────────────────────────────────────────
+function NoticeBoardWidget({ announcements, isUrdu }: { announcements: DashboardAnnouncement[]; isUrdu: boolean }) {
+    if (!announcements || announcements.length === 0) return null;
+
+    return (
+        <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.22 }}
+            style={{
+                background: 'var(--surface-2)',
+                border: '1px solid var(--border)',
+                borderRadius: 14,
+                padding: '20px 22px'
+            }}
+        >
+            <h3 style={{ margin: '0 0 16px', fontSize: '0.875rem', fontWeight: 700, color: '#1e6b3e', display: 'flex', alignItems: 'center', gap: 6 }}>
+                📢 {isUrdu ? 'اہم اعلانات اور نوٹس بورڈ' : 'Notice Board & Announcements'}
+            </h3>
+            
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+                {announcements.map((item) => (
+                    <div 
+                        key={item.id} 
+                        style={{
+                            padding: '12px 16px',
+                            borderRadius: 10,
+                            background: item.is_pinned ? 'rgba(30,107,62,0.04)' : 'var(--surface-3)',
+                            border: item.is_pinned ? '1px solid rgba(30,107,62,0.2)' : '1px solid var(--border)',
+                        }}
+                    >
+                        <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 }}>
+                            {item.is_pinned && (
+                                <span style={{
+                                    background: '#1e6b3e',
+                                    color: 'white',
+                                    fontSize: '0.6rem',
+                                    fontWeight: 700,
+                                    padding: '1px 6px',
+                                    borderRadius: 4,
+                                    display: 'inline-flex',
+                                    alignItems: 'center',
+                                    gap: 2
+                                }}>
+                                    📌 {isUrdu ? 'پن شدہ' : 'PIN'}
+                                </span>
+                            )}
+                            <h4 style={{
+                                margin: 0, 
+                                fontSize: '0.9rem', 
+                                fontWeight: 700, 
+                                color: 'var(--text-primary)',
+                                fontFamily: isUrdu && item.title_ur ? "'Noto Nastaliq Urdu', serif" : 'inherit',
+                                textAlign: isUrdu && item.title_ur ? 'right' : 'left',
+                                direction: isUrdu && item.title_ur ? 'rtl' : 'ltr'
+                            }}>
+                                {isUrdu && item.title_ur ? item.title_ur : item.title}
+                            </h4>
+                        </div>
+                        <p style={{
+                            margin: 0, 
+                            fontSize: '0.8rem', 
+                            color: 'var(--text-secondary)',
+                            lineHeight: 1.5,
+                            fontFamily: isUrdu && item.content_ur ? "'Noto Nastaliq Urdu', serif" : 'inherit',
+                            textAlign: isUrdu && item.content_ur ? 'right' : 'left',
+                            direction: isUrdu && item.content_ur ? 'rtl' : 'ltr',
+                            lineClamp: 2,
+                            display: '-webkit-box',
+                            WebkitLineClamp: 2,
+                            WebkitBoxOrient: 'vertical',
+                            overflow: 'hidden'
+                        }}>
+                            {isUrdu && item.content_ur ? item.content_ur : item.content}
+                        </p>
+                    </div>
+                ))}
+            </div>
+            
+            <div style={{ marginTop: 12, textAlign: isUrdu ? 'left' : 'right' }}>
+                <Link 
+                    href="/student/notices" 
+                    style={{ fontSize: '0.8rem', color: '#1e6b3e', fontWeight: 700, textDecoration: 'none' }}
+                >
+                    {isUrdu ? 'تمام اعلانات دیکھیں ←' : 'View All Notices →'}
+                </Link>
+            </div>
+        </motion.div>
+    );
+}
+
 // ─── Main Dashboard ────────────────────────────────────────────────────────
 export default function StudentDashboard({
     student, islamic_content, journey_stats, alerts,
-    today_classes, courses, assignments, attendance, upcoming_exams, hifz
+    today_classes, courses, assignments, attendance, upcoming_exams, hifz, announcements
 }: Props) {
+    const { props } = usePage();
+    const isUrdu = props.locale === 'ur';
+    const isEnrolled = !!(student.program_id && student.current_semester_id);
+
     return (
         <StudentLayout title="Dashboard">
             <Head title="Dashboard — Student Portal" />
@@ -484,20 +626,65 @@ export default function StudentDashboard({
                 {/* 3. Academic Alerts */}
                 <AcademicAlerts alerts={alerts} />
 
-                {/* 4. Islamic Journey Card */}
-                <IslamicJourneyCard stats={journey_stats} />
+                {/* Pending Enrollment Callout */}
+                {!isEnrolled && (
+                    <motion.div
+                        initial={{ opacity: 0, scale: 0.98 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        style={{
+                            background: 'linear-gradient(135deg, rgba(239, 68, 68, 0.08) 0%, rgba(239, 68, 68, 0.03) 100%)',
+                            border: '1px solid rgba(239, 68, 68, 0.25)',
+                            borderRadius: 14,
+                            padding: '24px 28px',
+                            textAlign: 'center',
+                            boxShadow: '0 4px 12px rgba(239, 68, 68, 0.05)',
+                        }}
+                    >
+                        <div style={{ fontSize: 48, marginBottom: 12 }}>⚠️</div>
+                        <h2 style={{
+                            margin: '0 0 10px',
+                            fontSize: '1.25rem',
+                            fontWeight: 700,
+                            color: '#b91c1c',
+                            fontFamily: isUrdu ? "'Noto Nastaliq Urdu', serif" : 'inherit',
+                        }}>
+                            {isUrdu ? 'داخلہ اور رجسٹریشن تعطل کا شکار' : 'Academic Enrollment Pending'}
+                        </h2>
+                        <p style={{
+                            margin: 0,
+                            fontSize: '0.925rem',
+                            color: 'var(--text-secondary)',
+                            lineHeight: 1.6,
+                            fontFamily: isUrdu ? "'Noto Nastaliq Urdu', serif" : 'inherit',
+                        }}>
+                            {isUrdu
+                                ? 'آپ کا تعلیمی داخلہ زیر التواء ہے۔ براہ کرم اپنے پروگرام اور سمسٹر کے تعیّن کے لیے ایڈمنسٹریشن (دفترِ تعلیمات) سے رابطہ کریں۔'
+                                : 'Your academic enrollment is pending. Please contact the admissions office to assign your Program and Semester.'}
+                        </p>
+                    </motion.div>
+                )}
 
-                {/* 5 & 6. Classes + Attendance side by side */}
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 16 }}>
-                    <TodayClasses classes={today_classes} />
-                    <AttendanceWidget attendance={attendance} />
-                </div>
+                {/* 4. Islamic Journey Card - Enrolled Only */}
+                {isEnrolled && <IslamicJourneyCard stats={journey_stats} />}
 
-                {/* 7 & 8. Assignments + Upcoming Exams side by side */}
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 16 }}>
-                    <AssignmentAlerts assignments={assignments} />
-                    <UpcomingExams exams={upcoming_exams} />
-                </div>
+                {/* Notice Board / Announcements */}
+                <NoticeBoardWidget announcements={announcements} isUrdu={isUrdu} />
+
+                {/* 5 & 6. Classes + Attendance side by side - Enrolled Only */}
+                {isEnrolled && (
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 16 }}>
+                        <TodayClasses classes={today_classes} />
+                        <AttendanceWidget attendance={attendance} />
+                    </div>
+                )}
+
+                {/* 7 & 8. Assignments + Upcoming Exams side by side - Enrolled Only */}
+                {isEnrolled && (
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 16 }}>
+                        <AssignmentAlerts assignments={assignments} />
+                        <UpcomingExams exams={upcoming_exams} />
+                    </div>
+                )}
 
             </div>
         </StudentLayout>

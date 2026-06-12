@@ -1,7 +1,20 @@
-import React, { useState } from 'react';
-import { Link, usePage, router } from '@inertiajs/react';
-import type { SharedData } from '@/types/inertia';
-import { User, CreditCard, Bell, LogOut, MoreVertical } from 'lucide-react';
+import { 
+    User, 
+    CreditCard, 
+    Bell, 
+    LogOut, 
+    MoreVertical,
+    GraduationCap,
+    Calendar,
+    BookOpen,
+    Users,
+    UserCheck,
+    ClipboardCheck,
+    CalendarDays,
+    Award,
+    Clock,
+    Building
+} from 'lucide-react';
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -11,6 +24,8 @@ import {
     DropdownMenuTrigger,
     DropdownMenuGroup,
 } from '@/Components/ui/dropdown-menu';
+import { router, usePage, Link } from '@inertiajs/react';
+import type { SharedData } from '@/types/inertia';
 
 interface NavItem {
     label: string;
@@ -51,37 +66,18 @@ const Icon = {
 
 const navSections = [
     {
-        section: 'Content',
+        section: 'Academics',
         items: [
-            { label: 'Audio', href: '/admin/audio', icon: <Icon.Audio />, permission: 'view audio' },
-            { label: 'Videos', href: '/admin/videos', icon: <Icon.Video />, permission: 'view videos' },
-            { label: 'Images & Banners', href: '/admin/images', icon: <Icon.Image />, permission: 'view home.main.banner' },
-            { label: 'Downloads', href: '/admin/downloads', icon: <Icon.Download />, permission: 'view downloads' },
-        ],
-    },
-    {
-        section: 'Classification',
-        items: [
-            { label: 'Speakers', href: '/admin/speakers', icon: <Icon.Speaker />, permission: 'view speakers' },
-            { label: 'Categories', href: '/admin/categories', icon: <Icon.Category />, permission: 'view categories' },
-            { label: 'Years', href: '/admin/years', icon: <Icon.Year />, permission: 'view years' },
-        ],
-    },
-    {
-        section: 'Dars-e-Nizami',
-        items: [
-            { label: 'Classes', href: '/admin/classes', icon: <Icon.Class />, permission: 'view classes' },
-            { label: 'Teachers', href: '/admin/teachers', icon: <Icon.Teacher />, permission: 'view teachers' },
-            { label: 'Books', href: '/admin/books', icon: <Icon.Book />, permission: 'view books' },
-        ],
-    },
-    {
-        section: 'Academic Portal',
-        items: [
-            { label: 'Attendance',     href: '/admin/attendance',          icon: <Icon.Attendance />, permission: 'view students' },
-            { label: 'Exam Schedule',  href: '/admin/exams',               icon: <Icon.Exam />,       permission: 'view students' },
-            { label: 'Enrollments',    href: '/admin/enrollments',         icon: <Icon.Enroll />,     permission: 'view students' },
-            { label: 'Assignment Grading', href: '/admin/assignments/grading', icon: <Icon.Grade />,  permission: 'view assignments' },
+            { label: 'Programs', href: '/admin/programs', icon: <GraduationCap size={18} strokeWidth={1.8} />, permission: 'view settings' },
+            { label: 'Semesters', href: '/admin/semesters', icon: <Calendar size={18} strokeWidth={1.8} />, permission: 'view classes' },
+            { label: 'Courses', href: '/admin/courses', icon: <BookOpen size={18} strokeWidth={1.8} />, permission: 'view classes' },
+            { label: 'Class Scheduler', href: '/admin/timetable', icon: <Clock size={18} strokeWidth={1.8} />, permission: 'view classes' },
+            { label: 'Classrooms / Rooms', href: '/admin/classrooms', icon: <Building size={18} strokeWidth={1.8} />, permission: 'view classes' },
+            { label: 'Teachers', href: '/admin/teachers', icon: <UserCheck size={18} strokeWidth={1.8} />, permission: 'view teachers' },
+            { label: 'Student Enrollments', href: '/admin/enrollments', icon: <Users size={18} strokeWidth={1.8} />, permission: 'view students' },
+            { label: 'Attendance Tracking', href: '/admin/attendance', icon: <ClipboardCheck size={18} strokeWidth={1.8} />, permission: 'view students' },
+            { label: 'Exam Schedule', href: '/admin/exams', icon: <CalendarDays size={18} strokeWidth={1.8} />, permission: 'view students' },
+            { label: 'Assignment Grading', href: '/admin/assignments/grading', icon: <Award size={18} strokeWidth={1.8} />, permission: 'view assignments' },
         ],
     },
     {
@@ -91,34 +87,37 @@ const navSections = [
         ],
     },
     {
-        section: 'Students',
+        section: 'Admissions & Portal',
         items: [
-            { label: 'Admissions', href: '/admin/admissions', icon: <Icon.Admission />, permission: 'view admissions' },
-            { label: 'Subscriptions', href: '/admin/subscriptions', icon: <Icon.Subscription />, permission: 'view subscriptions' },
+            { label: 'Student Admissions', href: '/admin/admissions', icon: <Icon.Admission />, permission: 'view admissions' },
+            { label: 'ID Photo Approvals', href: '/admin/id-cards', icon: <CreditCard size={18} strokeWidth={1.8} />, permission: 'view students' },
+            { label: 'User Subscriptions', href: '/admin/subscriptions', icon: <Icon.Subscription />, permission: 'view subscriptions' },
         ],
     },
     {
-        section: 'Q&A / Fatawa',
+        section: 'Fatawa Portal',
         items: [
             { label: 'Question & Answers', href: '/admin/qa/questions', icon: <Icon.QA />, permission: 'view qa' },
             { label: 'Topics', href: '/admin/qa/topics', icon: <Icon.Category />, permission: 'view topics' },
         ],
     },
     {
-        section: 'CMS',
+        section: 'CMS (Website)',
         items: [
-            { label: 'Settings', href: '/admin/cms/settings', icon: <Icon.Settings />, permission: 'view settings' },
-            { label: 'Departments', href: '/admin/departments', icon: <Icon.Settings />, permission: 'view settings' },
-            { label: 'Prayer Timings', href: '/admin/cms/prayer-timings', icon: <Icon.Prayer />, permission: 'view prayer-timings' },
             { label: 'Latest News', href: '/admin/cms/latest-news', icon: <Icon.News />, permission: 'view latest-news' },
-            { label: 'Feedback', href: '/admin/feedback', icon: <Icon.Feedback />, permission: 'view feedback' },
+            { label: 'Banners & Slider', href: '/admin/images', icon: <Icon.Image />, permission: 'view home.main.banner' },
+            { label: 'Download Links', href: '/admin/downloads', icon: <Icon.Download />, permission: 'view downloads' },
+            { label: 'Audio Media', href: '/admin/audio', icon: <Icon.Audio />, permission: 'view audio' },
+            { label: 'Video Media', href: '/admin/videos', icon: <Icon.Video />, permission: 'view videos' },
+            { label: 'Prayer Timings', href: '/admin/cms/prayer-timings', icon: <Icon.Prayer />, permission: 'view prayer-timings' },
+            { label: 'User Feedback', href: '/admin/feedback', icon: <Icon.Feedback />, permission: 'view feedback' },
         ],
     },
-
     {
-        section: 'System',
+        section: 'System Control',
         items: [
-            { label: 'Users', href: '/admin/users', icon: <Icon.Users />, permission: 'view users' },
+            { label: 'System Settings', href: '/admin/cms/settings', icon: <Icon.Settings />, permission: 'view settings' },
+            { label: 'Users Manager', href: '/admin/users', icon: <Icon.Users />, permission: 'view users' },
             { label: 'Roles & Permissions', href: '/admin/roles', icon: <Icon.Roles />, permission: 'view roles' },
             { label: 'Notifications', href: '/admin/notifications', icon: <Icon.Bell />, permission: 'view notifications' },
         ],

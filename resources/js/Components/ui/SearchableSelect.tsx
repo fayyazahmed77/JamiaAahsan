@@ -17,6 +17,7 @@ interface SearchableSelectProps {
     onChange: (e: { target: { value: string } }) => void;
     placeholder?: string;
     className?: string;
+    disabled?: boolean;
 }
 
 export function SearchableSelect({
@@ -29,6 +30,7 @@ export function SearchableSelect({
     onChange,
     placeholder = "Select an option",
     className,
+    disabled = false,
 }: SearchableSelectProps) {
     const [isOpen, setIsOpen] = React.useState(false);
     const [searchQuery, setSearchQuery] = React.useState("");
@@ -75,11 +77,13 @@ export function SearchableSelect({
             
             <button
                 type="button"
-                onClick={() => setIsOpen(!isOpen)}
+                onClick={() => !disabled && setIsOpen(!isOpen)}
+                disabled={disabled}
                 className={cn(
                     "flex h-9 w-full items-center justify-between rounded-lg border border-stone-200 dark:border-stone-850 bg-white dark:bg-stone-900 px-3 py-1.5 text-sm transition-colors outline-none text-left text-stone-800 dark:text-stone-250 cursor-pointer shadow-sm hover:bg-stone-50 dark:hover:bg-stone-850/50",
                     error && "border-destructive ring-destructive/20",
-                    isOpen && "border-primary-500 ring-3 ring-primary-500/15"
+                    isOpen && "border-primary-500 ring-3 ring-primary-500/15",
+                    disabled && "opacity-60 cursor-not-allowed bg-stone-100 dark:bg-stone-800 hover:bg-stone-100 dark:hover:bg-stone-800"
                 )}
             >
                 <span className={cn(!selectedOption && "text-muted-foreground")}>
@@ -87,17 +91,24 @@ export function SearchableSelect({
                 </span>
                 <div className="flex items-center gap-1.5">
                     {value !== "" && value !== undefined && value !== null && (
-                        <button
-                            type="button"
+                        <span
+                            role="button"
+                            tabIndex={0}
                             onClick={(e) => {
                                 e.stopPropagation();
                                 handleSelect("");
+                            }}
+                            onKeyDown={(e) => {
+                                if (e.key === 'Enter' || e.key === ' ') {
+                                    e.stopPropagation();
+                                    handleSelect("");
+                                }
                             }}
                             className="text-stone-400 hover:text-stone-600 dark:hover:text-stone-200 p-0.5 rounded hover:bg-stone-100 dark:hover:bg-stone-850 cursor-pointer bg-transparent border-none flex items-center justify-center"
                             title="Clear selection"
                         >
                             <X className="h-3.5 w-3.5" />
-                        </button>
+                        </span>
                     )}
                     <ChevronDown className="h-4 w-4 shrink-0 text-muted-foreground opacity-50" />
                 </div>

@@ -20,9 +20,10 @@ interface Props {
     stats: DashboardStats;
     recent_feedback: Feedback[];
     latest_audio: AudioModel[];
+    chart_data: { date: string; admissions: number; media_uploads: number }[];
 }
 
-export default function Dashboard({ stats, recent_feedback, latest_audio }: Props) {
+export default function Dashboard({ stats, recent_feedback, latest_audio, chart_data }: Props) {
     return (
         <AdminLayout title="Dashboard">
             <Head title="Dashboard" />
@@ -129,7 +130,7 @@ export default function Dashboard({ stats, recent_feedback, latest_audio }: Prop
 
                 {/* 2. Recharts Interactive Chart */}
                 <div className="px-4 lg:px-6">
-                    <ChartAreaInteractive />
+                    <ChartAreaInteractive data={chart_data} />
                 </div>
 
                 {/* 3. Reorderable Data Table */}

@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
         $this->call(RolePermissionMigrationSeeder::class);
         $this->call(AboutPageSeeder::class);
         $this->call(QASeeder::class);
+        $this->call(CMSSettingSeeder::class);
 
         // 2. Create default Admin/Super Admin users
         $usersToCreate = [

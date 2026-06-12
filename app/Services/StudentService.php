@@ -26,13 +26,16 @@ class StudentService
      */
     public function updatePhoto(Student $student, $photoFile): string
     {
-        // Delete old photo
-        if ($student->profile_photo) {
-            Storage::disk('public')->delete($student->profile_photo);
+        // Delete old pending photo
+        if ($student->pending_profile_photo) {
+            Storage::disk('public')->delete($student->pending_profile_photo);
         }
 
-        $path = $photoFile->store('student-photos', 'public');
-        $student->update(['profile_photo' => $path]);
+        $path = $photoFile->store('student-pending-photos', 'public');
+        $student->update([
+            'pending_profile_photo' => $path,
+            'photo_status'          => 'pending',
+        ]);
 
         return $path;
     }
